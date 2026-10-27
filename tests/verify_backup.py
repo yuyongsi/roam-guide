@@ -1,7 +1,8 @@
-﻿import os, pathlib, subprocess, tempfile, time, json
+﻿import os, pathlib, subprocess, tempfile, time, json, shutil
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 SCRIPT=ROOT/'scripts'/'backup-data.ps1'
-JAVA=pathlib.Path(os.environ.get('JAVA_HOME',r'D:\New Folder'))/'bin'
+JAVA=pathlib.Path(os.environ['JAVA_HOME'])/'bin' if os.environ.get('JAVA_HOME') else pathlib.Path(shutil.which('javac.exe') or '').parent
+if not (JAVA/'java.exe').is_file() or not (JAVA/'javac.exe').is_file(): raise SystemExit('Set JAVA_HOME to a complete JDK, or add it to PATH.')
 def run(*args,env=None):
  return subprocess.run(['powershell.exe','-NoProfile','-File',str(SCRIPT),*map(str,args)],capture_output=True,env=env)
 # The path helper must preserve both current and other drive roots without creating them.

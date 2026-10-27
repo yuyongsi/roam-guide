@@ -1,4 +1,4 @@
-# 约束规划算法独立检查
+﻿# 约束规划算法独立检查
 
 只依赖 JDK 17 或更新版本，不访问网络或数据库。在项目根目录执行：
 
@@ -55,3 +55,17 @@ Windows classpath分隔符为分号；Linux/macOS请改为冒号。共421项断�
     python tests/verify_comment_order.py
 
 只使用Python标准库与内存数据库，执行实际Java文件中的4条列表查询。编号与时间特意交错，并安排两个相同时间，断言按时间倒序、同刻按编号倒序；不连接或修改真实数据库。
+
+
+# 备份与打印检查（2026-10-27）
+
+    python tests/verify_backup.py
+    node tests/verify_print_ui.cjs
+
+备份检查使用独立临时文件夹和 Java 文件锁，需要完整 JDK（设置 JAVA_HOME 或加入 PATH），不使用正式数据。打印界面检查使用 Node 执行源码断言。
+
+    $env:ROAM_BASE = 'http://127.0.0.1:8836'
+    $env:ROAM_QA_DB = 'D:\print-check\data\guide.db'
+    python tests/verify_print_itinerary.py
+
+打印接口检查会写入测试数据，只能连接 883x 端口上的一次性隔离测试服务，ROAM_QA_DB 必须指向该服务的数据副本且路径包含 print-check。上述路径只是示例；不得指向正式 data，检查脚本也不能代替确认服务与数据库确实属于同一个隔离副本。
