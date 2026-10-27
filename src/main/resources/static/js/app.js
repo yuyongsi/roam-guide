@@ -182,7 +182,7 @@ async function mePage(){
 async function adminPage(){
  if(!state.user)return '<div class="container"><div class="page-top"><h1>管理后台</h1><p>请使用管理员账号登录。</p></div><button class="button" data-auth="login">登录后台</button></div>';
  if(state.user.role!=='ADMIN')return '<div class="error-page"><h1>这个页面需要管理员权限</h1><p class="muted">你仍然可以浏览内容，管理自己的收藏和评论。</p><a class="button" href="/">返回首页</a></div>';
- state.adminCities=await api('/api/admin/cities');
+ const requestVersion=state.renderId,requestUser=state.user.id;
  const p=new URLSearchParams(location.search),section=['overview','cities','spots','guides','comments','users','feedback','foods','posts','routes','completeness','audit'].includes(p.get('section'))?p.get('section'):'overview';
  if(section==='completeness')return adminCompletenessPage();if(section==='overview')return adminOverview();
  if(section==='audit')return adminAuditPage();
@@ -191,8 +191,9 @@ async function adminPage(){
  if(section==='foods')return adminFoodsPage();
  if(section==='posts')return adminPostsPage();
  if(section==='routes')return adminRoutesPage();
- const rows=await api('/api/admin/'+section);state.adminRows=rows;
- if(section==='guides')state.adminSpots=await api('/api/admin/spots');
+ const [data,cities,spots]=await Promise.all([adminListPage(section),['spots','guides'].includes(section)?api('/api/admin/cities'):Promise.resolve([]),section==='guides'?api('/api/admin/spots'):Promise.resolve([])]);
+ if(requestVersion!==state.renderId||requestUser!==state.user?.id)return '';
+ const rows=data.items;state.adminRows=rows;state.adminCities=cities;state.adminSpots=spots;
  const targetCity=section==='spots'?state.adminCities.find(c=>Number(c.id)===Number(p.get('city_id'))):null;
  const names={spots:'景点管理',guides:'攻略管理',comments:'评论管理',users:'用户管理'};
  let heads='',body='';
@@ -206,11 +207,12 @@ async function adminPage(){
   heads='<th>用户名</th><th>身份</th><th>状态</th><th>注册时间</th><th>操作</th>';
   body=rows.map(x=>'<tr data-admin-row data-keyword="'+esc(x.username)+'"><td>'+esc(x.username)+'</td><td>'+(x.role==='ADMIN'?'管理员':'普通用户')+'</td><td><span class="status-badge '+(x.status==='BANNED'?'off':'')+'">'+(x.status==='BANNED'?'已封禁':'正常')+'</span></td><td class="table-date">'+date(x.created_at)+'</td><td>'+(x.role==='ADMIN'?'<span class="muted small-text">个人中心修改密码</span>':'<div class="table-actions"><button data-user-status="'+x.id+'" data-status="'+(x.status==='ACTIVE'?'BANNED':'ACTIVE')+'">'+(x.status==='ACTIVE'?'封禁':'解封')+'</button><button data-reset-password="'+x.id+'">重置密码</button></div>')+'</td></tr>').join('');
  }
- return '<div class="container admin-layout">'+profileSidebar(true,section)+'<section class="admin-main"><h1>'+names[section]+'</h1>'+(targetCity?'<p class="notice">新增景点默认归属：'+esc(targetCity.province+' · '+targetCity.name)+(Number(targetCity.published)?'':'（目的地待完善，前台暂不可见）')+'</p>':'')+'<p class="muted small-text">'+(section==='users'?'封禁限制账号使用，历史评论和收藏继续保留。':section==='comments'?'评论直接公开，管理员可以删除需要处理的评论。':'在这里更新内容，保存后的变化会同步到游客页面。')+'</p><div class="admin-toolbar"><input id="adminFilter" type="search" placeholder="在当前列表中查找" aria-label="筛选当前管理列表">'+(['spots','guides'].includes(section)?'<button class="button small" data-edit="'+section+'" data-id="0">'+icon('plus',17)+'新增'+(section==='spots'?'景点':'攻略')+'</button>':'<span class="muted small-text">共 '+rows.length+' 条</span>')+'</div><div class="table-wrap"><table><thead><tr>'+heads+'</tr></thead><tbody>'+ (body||'<tr><td colspan="5" style="text-align:center;padding:35px">这里暂时没有记录。</td></tr>')+'</tbody></table></div></section></div>';
+ return '<div class="container admin-layout">'+profileSidebar(true,section)+'<section class="admin-main"><h1>'+names[section]+'</h1>'+(targetCity?'<p class="notice">新增景点默认归属：'+esc(targetCity.province+' · '+targetCity.name)+(Number(targetCity.published)?'':'（目的地待完善，前台暂不可见）')+'</p>':'')+'<p class="muted small-text">'+(section==='users'?'封禁限制账号使用，历史评论和收藏继续保留。':section==='comments'?'评论直接公开，管理员可以删除需要处理的评论。':'在这里更新内容，保存后的变化会同步到游客页面。')+'</p>'+adminSearch(data,section,(['spots','guides'].includes(section)?'<button type="button" class="button small" data-edit="'+section+'" data-id="0">'+icon('plus',17)+'新增'+(section==='spots'?'景点':'攻略')+'</button>':'<span class="muted small-text">共 '+data.total+' 条</span>'))+'<div class="table-wrap"><table><thead><tr>'+heads+'</tr></thead><tbody>'+ (body||'<tr><td colspan="5" style="text-align:center;padding:35px">这里暂时没有记录。</td></tr>')+'</tbody></table></div>'+adminPagination(data)+'</section></div>';
 }
 async function render(){
  const id=++state.renderId;document.title='漫游 · 旅行指南';const path=location.pathname;
  if(typeof syncTripPrintRoute==='function')syncTripPrintRoute(path);
+ if(typeof syncTripToolsRoute==='function')syncTripToolsRoute();
  updateActiveNavigation(path);
  try{
   let html;
@@ -295,9 +297,9 @@ async function changeFavorite(button){
 }
 function editorSection(s={},index=0){return '<div class="section-editor" data-section><div class="section-toolbar"><span>攻略小节</span><button type="button" class="delete-link" data-remove-section>移除</button></div><input aria-label="小节标题" data-section-title required maxlength="100" placeholder="例如：怎样安排游玩" value="'+esc(s.title||'')+'"><textarea aria-label="小节正文" data-section-body required maxlength="10000" placeholder="填写具体内容">'+esc(s.body||'')+'</textarea></div>';}
 function field(name,label,value='',multiline=false,required=false){return '<label>'+esc(label)+(multiline?'<textarea':'<input')+' name="'+name+'" '+(required?'required':'')+(multiline?' rows="4">':' value="'+esc(value)+'">')+(multiline?esc(value)+'</textarea>':'')+'</label>';}
-function openEditor(kind,id){
+function openEditor(kind,id,overrideItem=null){
  const defaultCity=state.adminCities?.find(c=>Number(c.id)===Number(new URLSearchParams(location.search).get('city_id')))||state.adminCities?.[0]||state.cities[0];
- const item=id?state.adminRows.find(x=>Number(x.id)===Number(id)):{city_id:defaultCity.id,image:defaultCity.image||'/assets/compass.svg',published:0,sections:[{title:'游玩安排',body:''},{title:'交通与用餐',body:''},{title:'出行提示',body:''}],spot_ids:[]};
+ const item=id?(overrideItem||state.adminRows.find(x=>Number(x.id)===Number(id))):{city_id:defaultCity.id,image:defaultCity.image||'/assets/compass.svg',published:0,sections:[{title:'游玩安排',body:''},{title:'交通与用餐',body:''},{title:'出行提示',body:''}],spot_ids:[]};
  if(!item)return;
  const isGuide=kind==='guides';
  const presets=allPhotoPresets();
@@ -384,6 +386,7 @@ document.addEventListener('change',async e=>{
 document.addEventListener('submit',async e=>{
  const form=e.target;if(!(form instanceof HTMLFormElement))return;e.preventDefault();
  if(form.matches('.audit-filters')){navigate('/admin?'+new URLSearchParams(new FormData(form)));return;}
+ if(form.hasAttribute('data-admin-search')){const p=new URLSearchParams(new FormData(form));p.set('page','1');navigate('/admin?'+p);return;}
  if(await submitCityManagementForm(form,e))return;
  if(await submitConstraintPlannerForm(form,e))return;
  if(await submitTripVersionsForm(form,e))return;
