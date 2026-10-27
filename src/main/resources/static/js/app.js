@@ -213,7 +213,7 @@ async function adminPage(){
  return '<div class="container admin-layout">'+profileSidebar(true,section)+'<section class="admin-main"><h1>'+names[section]+'</h1>'+(targetCity?'<p class="notice">新增景点默认归属：'+esc(targetCity.province+' · '+targetCity.name)+(Number(targetCity.published)?'':'（目的地待完善，前台暂不可见）')+'</p>':'')+'<p class="muted small-text">'+(section==='users'?'封禁限制账号使用，历史评论和收藏继续保留。':section==='comments'?'评论直接公开，管理员可以删除需要处理的评论。':'在这里更新内容，保存后的变化会同步到游客页面。')+'</p>'+adminSearch(data,section,(['spots','guides'].includes(section)?'<button type="button" class="button small" data-edit="'+section+'" data-id="0">'+icon('plus',17)+'新增'+(section==='spots'?'景点':'攻略')+'</button>':'<span class="muted small-text">共 '+data.total+' 条</span>'))+'<div class="table-wrap"><table><thead><tr>'+heads+'</tr></thead><tbody>'+ (body||'<tr><td colspan="5" style="text-align:center;padding:35px">这里暂时没有记录。</td></tr>')+'</tbody></table></div>'+adminPagination(data)+'</section></div>';
 }
 async function render(options={}){
- const id=++state.renderId;document.title='漫游 · 旅行指南';const path=location.pathname;
+ const id=++state.renderId;const path=location.pathname;
  const motion=routeMotion.begin(id,location.href,options.scroll);
  if(typeof syncTripPrintRoute==='function')syncTripPrintRoute(path);
  if(typeof syncTripToolsRoute==='function')syncTripToolsRoute();
@@ -245,7 +245,6 @@ async function render(options={}){
   Promise.resolve().then(()=>updateCompareUi()).catch(()=>{});
   Promise.resolve().then(()=>refreshExperienceBadge()).catch(()=>{});
   if(path.startsWith('/guide/'))loadCommentReactions(path.split('/')[2]);
-  const heading=$('#main h1');if(heading)document.title=heading.textContent.replace(/\s+/g,' ')+' · 漫游';
  }catch(error){if(id!==state.renderId)return;await routeMotion.commit(motion,'<div class="error-page"><h1>'+(error.status===404?'内容暂时无法查看':'页面没有加载完成')+'</h1><p class="muted">'+esc(error.message)+'</p><div class="button-row" style="justify-content:center"><button class="button" data-action="retry">重新加载</button><a class="button secondary" href="/">返回首页</a></div></div>');}
 }
 const loginCooldown={pairs:new Map(),sourceUntil:0,timer:null,busy:false};
