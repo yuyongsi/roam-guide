@@ -241,12 +241,12 @@ async function render(options={}){
   else if(path.startsWith('/trip/'))html=await tripDetail(path.split('/')[2]);
   else if(path==='/admin')html=await adminPage();
   else throw new Error('这个页面不存在');
-  if(id!==state.renderId)return;routeMotion.commit(motion,html);bindPlannerDepth();
+  if(id!==state.renderId||!await routeMotion.commit(motion,html))return;bindPlannerDepth();
   Promise.resolve().then(()=>updateCompareUi()).catch(()=>{});
   Promise.resolve().then(()=>refreshExperienceBadge()).catch(()=>{});
   if(path.startsWith('/guide/'))loadCommentReactions(path.split('/')[2]);
   const heading=$('#main h1');if(heading)document.title=heading.textContent.replace(/\s+/g,' ')+' · 漫游';
- }catch(error){if(id!==state.renderId)return;routeMotion.commit(motion,'<div class="error-page"><h1>'+(error.status===404?'内容暂时无法查看':'页面没有加载完成')+'</h1><p class="muted">'+esc(error.message)+'</p><div class="button-row" style="justify-content:center"><button class="button" data-action="retry">重新加载</button><a class="button secondary" href="/">返回首页</a></div></div>');}
+ }catch(error){if(id!==state.renderId)return;await routeMotion.commit(motion,'<div class="error-page"><h1>'+(error.status===404?'内容暂时无法查看':'页面没有加载完成')+'</h1><p class="muted">'+esc(error.message)+'</p><div class="button-row" style="justify-content:center"><button class="button" data-action="retry">重新加载</button><a class="button secondary" href="/">返回首页</a></div></div>');}
 }
 const loginCooldown={pairs:new Map(),sourceUntil:0,timer:null,busy:false};
 function loginNameKey(value){return value.replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g,'').replace(/[A-Z]/g,c=>c.toLowerCase());}
