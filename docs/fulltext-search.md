@@ -26,7 +26,7 @@ search_fts 是真实 FTS5 虚拟表，分 title、intro、body、location 四个
 
 GET /api/search 保留 type/q/city/theme/duration/page/size 参数，增加 sort=relevance|editor。旧调用不需要修改。非空纯标点输入返回0条；无关键词不查询倒排索引，按编辑顺序浏览。响应新增 terms、sort、engine 和逐项 search 信息。
 
-源表定义和FTS虚拟表在 src/main/resources/schema.sql；完整触发器单独位于 search-triggers.sql，通过完整CREATE TRIGGER语句执行，避免拆开触发器中的分号。sql/schema.sql包含可独立执行的全量表与触发器。首次启动自动建立索引，sql/guide.db提供检查后的快照。SQLite数据库备份请使用一致性快照，避免只复制正在写入的主文件。
+源表定义和FTS虚拟表在 src/main/resources/schema.sql；完整触发器单独位于 search-triggers.sql，通过完整CREATE TRIGGER语句执行，避免拆开触发器中的分号。sql/schema.sql包含可独立执行的全量表与触发器。首次启动自动建立索引，sql/guide.db 为固定演示初始库，实际运行使用 data/guide.db。停止网站后备份整个 data 目录，见 [备份说明](backup.md)。
 
 ## 验证
 

@@ -1,0 +1,23 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');
+const root=path.resolve(__dirname,'..'),source=fs.readFileSync(path.join(root,'src/main/resources/static/js/print-itinerary.js'),'utf8');
+const handlers={}, checks=[];
+const check=(name,ok)=>{assert(ok,name);checks.push(name);};
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const c=vm.createContext({window:{addEventListener:(k,f)=>handlers[k]=f},esc,dayDate:()=>'',budgetMoney:x=>'¥'+(Number(x||0)/100).toFixed(2),budgetRef:()=>'',console});
+vm.runInContext(source,c);const render=vm.runInContext('printDocument',c),state=vm.runInContext('tripPrint',c),route=vm.runInContext('syncTripPrintRoute',c);
+const d={trip:{title:'<img src=x onerror=alert(1)>'+'长'.repeat(60),days:1,notes:'备注'.repeat(750)+'<script>x</script>',items:[{spot_id:1,day_number:1,title:'景点',city_name:'城市',published:1,note:'交通备注'}],checklist:[{text:'车票',done:false}]},schedule:{days:[{day_number:1,start_time:'08:30',end_time:'10:30',stops:[{spot_id:1,arrival:'09:00',departure:'10:00',travel_minutes:30,rest_minutes:30}]}]},meals:[{day_number:1,slot:'午餐',title:'餐食',city_name:'城市',notes:'用餐备注',planned_cents:1234},{day_number:2,slot:'晚餐',title:'旧餐食',city_name:'城市',notes:'旧餐备注'}],budget:{people:1,notes:'预算秘密',summary:{planned_cents:100,actual_cents:0,balance_cents:100},entries:[]}};
+const a=render(d,false),b=render(d,true);
+check('长标题及长备注完整且转义',a.includes('长'.repeat(60))&&a.includes('备注'.repeat(750))&&a.includes('&lt;script&gt;x&lt;/script&gt;')&&!a.includes('<script>x</script>'));
+check('默认不含预算字段和预计餐费',!a.includes('预算秘密')&&!a.includes('¥12.34')&&!a.includes('旅行预算（人民币）'));
+check('主动勾选显示预算',b.includes('预算秘密')&&b.includes('¥12.34'));
+check('旧日期用餐及备注保留',a.includes('原用餐安排')&&a.includes('旧餐备注'));
+check('已保存时间交通备注及清单',a.includes('08:30')&&a.includes('交通备注')&&a.includes('车票'));
+check('A4及长文本换行样式',a.includes('size:A4')&&a.includes('overflow-wrap:anywhere'));
+function mount(){let removed=0;state.owner=7;state.tripId=5;state.dialog={open:false,querySelector:()=>null,remove:()=>removed++};return ()=>removed;}
+let removed=mount();handlers.storage({key:'roam-session-change',newValue:JSON.stringify({uid:7,nonce:'a'})});check('同一账户新标签不会清除',removed()===0&&state.dialog);
+handlers.storage({key:'roam-session-change',newValue:'{bad'});handlers.storage({key:'roam-session-change',newValue:JSON.stringify({uid:'8',nonce:'a'})});check('无效广播被忽略',removed()===0);
+handlers.storage({key:'roam-session-change',newValue:JSON.stringify({uid:8,nonce:'b'})});check('切换账号清除',removed()===1&&!state.dialog);
+removed=mount();handlers.storage({key:'roam-session-change',newValue:JSON.stringify({uid:null,nonce:'c'})});check('登出清除',removed()===1&&!state.dialog);
+removed=mount();route('/trip/5');check('留在当前行程保留',removed()===0);route('/trips');check('离开行程清除',removed()===1&&!state.dialog);
+const app=fs.readFileSync(path.join(root,'src/main/resources/static/js/app.js'),'utf8');check('导航渲染同步清理',app.includes("syncTripPrintRoute(path)"));
+const out=process.env.ROAM_PRINT_UI_RESULT||path.join(root,'target/print-ui-checks.json');fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify({passed:checks.length,checks},null,2));console.log('PASS',checks.length,'print UI assertions:',out);

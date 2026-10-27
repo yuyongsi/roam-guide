@@ -66,6 +66,8 @@ async function recoverExpiredSession(){
 function acceptSession(info){
  const previous=state.user?.id??null,next=info.user?.id??null;
  if(previous!==next){
+  if(typeof clearTripPrint==='function')clearTripPrint();
+  try{if(typeof window!=='undefined')window.localStorage.setItem('roam-session-change',JSON.stringify({uid:next,nonce:String(Date.now())+Math.random()}));}catch{}
   state.drafts.clear();
   if(previous!==null){
    state.favorites=[];state.favoriteKeys.clear();state.adminRows=[];state.adminSpots=[];state.adminCities=[];cityUi.catalog=null;cityUi.nonce++;
@@ -206,6 +208,7 @@ async function adminPage(){
 }
 async function render(){
  const id=++state.renderId;document.title='漫游 · 旅行指南';const path=location.pathname;
+ if(typeof syncTripPrintRoute==='function')syncTripPrintRoute(path);
  updateActiveNavigation(path);
  try{
   let html;

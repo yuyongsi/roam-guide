@@ -1,0 +1,2 @@
+.print-dialog{width:min(1040px,calc(100vw - 32px));max-height:94dvh;padding:24px;display:flex;flex-direction:column;gap:12px}
+.print-dialog:not([open]){display:none}.print-dialog h2{margin:0;font-size:24px}.print-dialog p{margin:0}.print-dialog .print-options{display:flex;gap:20px;align-items:center;flex-wrap:wrap}.print-dialog label{display:flex;gap:8px;align-items:center}.print-dialog iframe{width:100%;height:min(58vh,650px);border:1px solid #c9d9dd;background:white}.print-dialog .form-error{color:#a43939}.print-dialog .button-row{justify-content:flex-end}

@@ -79,7 +79,7 @@
 
 体验账号 traveler 的“南阳两日游（功能体验）”（/trip/30）保留三份实际操作产生的记录：当前安排基线、移动景点并修改备注、恢复版本 1 后的新版本 3。当前安排已恢复，费用和用餐保留，没有新增虚构足迹或社区帖子。
 
-新增源码：TripVersions.java、TripVersionController.java、trip-versions.js/css；新增表见 sql/trip-versions.sql，已合入完整 sql/schema.sql。历史会增加数据库体积，备份请使用一致的 SQLite 快照；sql/guide.db 为检查后的快照。
+新增源码：TripVersions.java、TripVersionController.java、trip-versions.js/css；新增表见 sql/trip-versions.sql，已合入完整 sql/schema.sql。历史会增加数据库体积；停止网站后备份整个 data/ 目录，sql/guide.db 是固定演示初始库。
 
 
 ## 白天与黑夜模式（2026-10-25）
@@ -136,4 +136,4 @@ ConstraintPlanner 为无数据库/网络依赖、输入确定的 Java 规划核�
 
 ## 2026-10-26 内容充实
 
-现有内容为5座城市、13个景点、22篇攻略、10道美食。22篇攻略均为6小节，共132节，覆盖初游安排、摄影观察、饮食选择、博物馆阅读、古建观察与分日计划；城市、景点、美食同步扩写。本轮未增加功能模块，旧内容网址与私人数据保留。
+当时内容为5座城市、13个景点、22篇攻略、10道美食；随后已扩充为30个景点。22篇攻略均为6小节，共132节，覆盖初游安排、摄影观察、饮食选择、博物馆阅读、古建观察与分日计划；城市、景点、美食同步扩写。本轮未增加功能模块，旧内容网址与私人数据保留。
