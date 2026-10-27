@@ -31,6 +31,7 @@ final class LoginThrottle {
     void failed(String source,String name){
         name=keyName(name);
         long now=clock.millis();Entry s=sources.computeIfAbsent(source,k->new Entry());Entry p=pairs.computeIfAbsent(new Pair(source,name),k->new Entry());
+        clean(s,now);clean(p,now);
         s.failures.addLast(now);p.failures.addLast(now);
         if(s.failures.size()>=30){s.failures.clear();s.until=now+COOLDOWN;}
         if(p.failures.size()>=5){p.failures.clear();p.until=now+COOLDOWN;}

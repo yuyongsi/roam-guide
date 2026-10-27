@@ -239,3 +239,5 @@ ConstraintPlanner 为无数据库/网络依赖、输入确定的 Java 规划核�
 ## 2026-10-27 完善记录
 
 行程打印、停站备份、部署文档统一与版本控制的变更和验证边界见[本轮完善记录](docs/final-polish-20261027.md)。
+
+登录失败冷却规则、运行范围和接口说明见 [docs/login-cooldown.md](docs/login-cooldown.md)。

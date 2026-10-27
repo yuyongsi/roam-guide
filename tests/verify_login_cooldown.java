@@ -15,6 +15,8 @@ class verify_login_cooldown {
   t.check("b","alice");c.advance(600001);t.check("a","alice");
   final LoginThrottle sourceTest=new LoginThrottle(c,10000);
   for(int i=0;i<29;i++)fail(sourceTest,"same","n"+i);sourceTest.success("same","n1");ok(blocked(()->fail(sourceTest,"same","n29")).scope.equals("source"));sourceTest.check("other","n29");
+  LoginThrottle boundary=new LoginThrottle(c,1000);for(int i=0;i<4;i++)fail(boundary,"a","x");c.advance(599999);boundary.check("a","x");c.advance(1);boundary.failed("a","x");boundary.check("a","x");
+  LoginThrottle boundarySource=new LoginThrottle(c,1000);for(int i=0;i<29;i++)fail(boundarySource,"a","n"+i);c.advance(599999);boundarySource.check("a","last");c.advance(1);boundarySource.failed("a","last");boundarySource.check("a","last");
   LoginThrottle small=new LoginThrottle(c,2);fail(small,"a","x");try{small.check("b","y");throw new AssertionError();}catch(ApiError e){ok(e.status==503);}for(int i=0;i<3;i++)fail(small,"a","x");blocked(()->fail(small,"a","x"));c.advance(600001);small.check("b","y");
   LoginThrottle concurrent=new LoginThrottle(c,1000);ExecutorService pool=Executors.newFixedThreadPool(16);CountDownLatch gate=new CountDownLatch(1);java.util.List<Future<Integer>> futures=new java.util.ArrayList<>();
   for(int i=0;i<40;i++)futures.add(pool.submit(()->{gate.await();try{fail(concurrent,"src","user");return 0;}catch(LoginCooldown e){return 1;}}));gate.countDown();int rejected=0;for(var f:futures)rejected+=f.get();pool.shutdown();ok(rejected==36);

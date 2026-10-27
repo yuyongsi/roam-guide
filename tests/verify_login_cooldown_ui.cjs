@@ -1,0 +1,24 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(__dirname+'/../src/main/resources/static/js/app.js','utf8');
+const code=source.slice(source.indexOf('const loginCooldown='),source.indexOf('function openAuth('));
+let now=100000, timers=new Map(),id=0;
+const form={elements:{username:{value:'Alice'}}},button={disabled:false},notice={textContent:''};
+const c={state:{authMode:'login'},$:s=>({'#authForm':form,'#authSubmit':button,'#authCooldown':notice}[s]),Date:{now:()=>now},setTimeout:(f,delay)=>{let n=++id;timers.set(n,{f,delay});return n;},clearTimeout:n=>timers.delete(n),Math,Number};
+vm.createContext(c);vm.runInContext(code,c);
+function run(s){return vm.runInContext(s,c);}
+run("rememberLoginCooldown({retryAfterSeconds:60,cooldownScope:'pair'},' Alice ')");assert.equal(button.disabled,true);assert.match(notice.textContent,/60/);
+form.elements.username.value='ALICE';run('paintLoginCooldown()');assert.equal(button.disabled,true);
+form.elements.username.value='Bob';run('paintLoginCooldown()');assert.equal(button.disabled,false);assert.equal(notice.textContent,'');
+form.elements.username.value='Alice';c.state.authMode='register';run('paintLoginCooldown()');assert.equal(button.disabled,false);
+c.state.authMode='login';run('paintLoginCooldown()');assert.equal(button.disabled,true);
+now+=61000;run('paintLoginCooldown()');assert.equal(button.disabled,false);
+run("rememberLoginCooldown({retryAfterSeconds:60,cooldownScope:'source'},'Alice')");form.elements.username.value='Bob';run('paintLoginCooldown()');assert.equal(button.disabled,true);
+c.state.authMode='register';run('paintLoginCooldown()');assert.equal(button.disabled,false);c.state.authMode='login';run('paintLoginCooldown()');assert.equal(button.disabled,true);
+run('loginCooldown.busy=true');now+=61000;run('paintLoginCooldown()');assert.equal(button.disabled,true);run('loginCooldown.busy=false;paintLoginCooldown()');assert.equal(button.disabled,false);
+assert.notEqual(run("loginNameKey('Ä')"),run("loginNameKey('ä')"));assert.notEqual(run("loginNameKey('\u00a0Alice')"),run("loginNameKey('Alice')"));
+form.elements.username.value='Alice';c.state.authMode='login';assert.equal(run("authErrorIsCurrent('login','Alice')"),true);form.elements.username.value='Bob';assert.equal(run("authErrorIsCurrent('login','Alice')"),false);c.state.authMode='register';form.elements.username.value='Alice';assert.equal(run("authErrorIsCurrent('login','Alice')"),false);
+assert.match(source,/form.id!=='authForm'\|\|authErrorIsCurrent\(submittedAuthMode,submittedUsername\)/);
+assert.match(source,/finally\{if\(form.id==='authForm'\)\{loginCooldown.busy=false;paintLoginCooldown\(\);\}/);
+assert.match(source,/rememberLoginCooldown\(error,submittedUsername\)/);assert.match(source,/toast\(submittedAuthMode===/);
+const html=fs.readFileSync(__dirname+'/../src/main/resources/templates/layout.html','utf8');assert.match(html,/id="authCooldown"[^>]*aria-live="off"/);
+console.log('PASS login countdown source UI tests');

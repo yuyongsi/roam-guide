@@ -69,3 +69,16 @@ Windows classpath分隔符为分号；Linux/macOS请改为冒号。共421项断�
     python tests/verify_print_itinerary.py
 
 打印接口检查会写入测试数据，只能连接 883x 端口上的一次性隔离测试服务，ROAM_QA_DB 必须指向该服务的数据副本且路径包含 print-check。上述路径只是示例；不得指向正式 data，检查脚本也不能代替确认服务与数据库确实属于同一个隔离副本。
+
+# 登录失败冷却（2026-10-27）
+
+    javac -encoding UTF-8 -cp target/classes -d target/verify-login tests/verify_login_cooldown.java
+    java -cp "target/classes;target/verify-login" cn.edu.travel.verify_login_cooldown
+    node tests/verify_login_cooldown_ui.cjs
+
+先构建项目；Java 核心检查采用可控时钟，覆盖阈值、到期、不延长、成功清理、窗口跨界、来源累计、隔离、容量和并发。Node 检查使用实际前端源码，验证计时、注册切换、来源与组合范围及请求过程中的状态判断。
+
+    $env:ROAM_BASE = 'http://127.0.0.1:8832'
+    python tests/verify_login_cooldown_http.py
+
+HTTP 检查会创建测试账号、改密码并故意触发登录限制，真实等待 61 秒；只可在 8832 的一次性隔离数据副本运行，不得连接正式数据。检查服务的运行目录和数据库确属隔离副本。测试后重启隔离服务，清除冷却记录，再执行其他回归。
