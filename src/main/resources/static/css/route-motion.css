@@ -1,0 +1,8 @@
+/* 动效限定在主内容，导航与弹窗不参与淡入。 */
+#main:focus{outline:none}
+#routeProgress{position:fixed;inset:0 0 auto;height:3px;z-index:1000;overflow:hidden;background:rgba(8,126,139,.12);pointer-events:none}
+#routeProgress::after{content:"";display:block;width:32%;height:100%;background:#087e8b;animation:route-progress 1.1s ease-in-out infinite}
+html[data-theme="dark"] #routeProgress::after{background:#8ac9cf}
+@keyframes route-progress{from{transform:translateX(-105%)}to{transform:translateX(420%)}}
+@media(prefers-reduced-motion:reduce){#routeProgress::after{animation:none;width:100%;opacity:.65}}
+@media print{#routeProgress{display:none!important}}

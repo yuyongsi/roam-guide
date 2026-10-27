@@ -82,3 +82,7 @@ Windows classpath分隔符为分号；Linux/macOS请改为冒号。共421项断�
     python tests/verify_login_cooldown_http.py
 
 HTTP 检查会创建测试账号、改密码并故意触发登录限制，真实等待 61 秒；只可在 8832 的一次性隔离数据副本运行，不得连接正式数据。检查服务的运行目录和数据库确属隔离副本。测试后重启隔离服务，清除冷却记录，再执行其他回归。
+
+# 页面切换
+
+`node tests/verify_route_motion.cjs` 只使用Node标准库，执行实际动效模块；覆盖请求竞争、加载状态释放、滚动恢复及减少动态效果。无需连接网站或写数据库。
