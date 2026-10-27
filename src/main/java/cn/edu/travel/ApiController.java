@@ -14,7 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApiController {
     final Database db;
     final Auth auth;
-    public ApiController(Database db,Auth auth){this.db=db;this.auth=auth;}
+    final LoginThrottle throttle;
+    public ApiController(Database db,Auth auth,LoginThrottle throttle){this.db=db;this.auth=auth;this.throttle=throttle;}
     static String text(Map<String,Object> body,String key,int min,int max) {
         String value=Objects.toString(body.get(key),"").trim();
         if(value.length()<min || value.length()>max)throw new ApiError(400,keyName(key)+"请填写 "+min+"～"+max+" 个字符");
@@ -47,11 +48,18 @@ public class ApiController {
     @PostMapping("/auth/login") Map<String,Object> login(@RequestBody Map<String,Object> body,HttpServletRequest req) {
         String name=text(body,"username",1,24),password=raw(body,"password");
         if(password.length()>128)throw new ApiError(400,"密码长度不正确");
-        var rows=db.list("SELECT * FROM users WHERE username=?",name);
-        if(rows.isEmpty() || !Passwords.matches(password,String.valueOf(rows.get(0).get("password_hash"))))
-            throw new ApiError(401,"用户名或密码不正确");
-        if(!"ACTIVE".equals(rows.get(0).get("status")))throw new ApiError(403,"账号已被封禁，请联系管理员");
-        auth.signIn(req,rows.get(0));return session(req);
+        String source=req.getRemoteAddr();
+        synchronized(throttle){
+            throttle.check(source,name);
+            var rows=db.list("SELECT * FROM users WHERE username=?",name);
+            if(rows.isEmpty() || !Passwords.matches(password,String.valueOf(rows.get(0).get("password_hash")))){
+                throttle.failed(source,name);
+                throw new ApiError(401,"用户名或密码不正确");
+            }
+            throttle.success(source,name);
+            if(!"ACTIVE".equals(rows.get(0).get("status")))throw new ApiError(403,"账号已被封禁，请联系管理员");
+            auth.signIn(req,rows.get(0));return session(req);
+        }
     }
     @PostMapping("/auth/logout") Map<String,Object> logout(HttpServletRequest req) {
         var session=req.getSession(false);if(session!=null)session.invalidate();return session(req);

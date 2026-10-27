@@ -40,9 +40,11 @@ async function api(url,options={}){
    throw requestFailure(response.ok?'网站返回了无法识别的内容，请重新加载后重试':'服务暂时无法完成请求，请稍后重试',response.ok?502:response.status,'INVALID_RESPONSE',response.headers?.get('X-Request-ID'));
   }
   if(!response.ok){
-   if(response.status===401 && state.user)await recoverExpiredSession();
+   if(response.status===401 && state.user && url!=='/api/auth/login')await recoverExpiredSession();
    if(response.status===403 && String(data?.message||'').includes('页面状态'))await recoverExpiredSession();
-   throw requestFailure(data?.message||'操作未完成，请稍后重试',response.status,data?.code||'REQUEST_FAILED',data?.request_id||response.headers?.get('X-Request-ID'));
+   const failure=requestFailure(data?.message||'操作未完成，请稍后重试',response.status,data?.code||'REQUEST_FAILED',data?.request_id||response.headers?.get('X-Request-ID'));
+   if(failure.code==='LOGIN_COOLDOWN'){failure.retryAfterSeconds=Number(data?.retry_after_seconds);failure.cooldownScope=data?.cooldown_scope;}
+   throw failure;
   }
   return data;
  }catch(error){
@@ -240,6 +242,25 @@ async function render(){
   const heading=$('#main h1');if(heading)document.title=heading.textContent.replace(/\s+/g,' ')+' · 漫游';
  }catch(error){if(id!==state.renderId)return;$('#main').innerHTML='<div class="error-page"><h1>'+(error.status===404?'内容暂时无法查看':'页面没有加载完成')+'</h1><p class="muted">'+esc(error.message)+'</p><div class="button-row" style="justify-content:center"><button class="button" data-action="retry">重新加载</button><a class="button secondary" href="/">返回首页</a></div></div>';}
 }
+const loginCooldown={pairs:new Map(),sourceUntil:0,timer:null,busy:false};
+function loginNameKey(value){return value.trim().replace(/[A-Z]/g,c=>c.toLowerCase());}
+function paintLoginCooldown(){
+ const form=$('#authForm'),button=$('#authSubmit'),notice=$('#authCooldown');if(!form||!button||!notice)return;
+ const now=Date.now(),key=loginNameKey(form.elements.username.value);
+ for(const [name,until] of loginCooldown.pairs)if(until<=now)loginCooldown.pairs.delete(name);
+ const until=state.authMode==='login'?Math.max(loginCooldown.sourceUntil,loginCooldown.pairs.get(key)||0):0;
+ const seconds=Math.max(0,Math.ceil((until-now)/1000));
+ notice.textContent=seconds?'请等待 '+seconds+' 秒后再登录。':'';
+ button.disabled=loginCooldown.busy||seconds>0;
+ clearTimeout(loginCooldown.timer);if(seconds)loginCooldown.timer=setTimeout(paintLoginCooldown,Math.min(1000,until-now));
+}
+function rememberLoginCooldown(error,name){
+ const seconds=error.retryAfterSeconds;if(!Number.isInteger(seconds)||seconds<1)return;
+ const until=Date.now()+seconds*1000;
+ if(error.cooldownScope==='source')loginCooldown.sourceUntil=Math.max(loginCooldown.sourceUntil,until);
+ else loginCooldown.pairs.set(loginNameKey(name),until);
+ paintLoginCooldown();
+}
 function openAuth(mode='login'){
  const dialog=$('#authDialog');state.authMode=mode;$('#authError').textContent='';
  $('#authHeading').textContent=mode==='register'?'开启你的漫游':'欢迎回来';
@@ -249,6 +270,7 @@ function openAuth(mode='login'){
  $('#authForm [name=password]').minLength=mode==='register'?8:1;
  $('#authSubmit').textContent=mode==='register'?'注册并登录':'登录';
  document.querySelectorAll('[data-auth-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.authTab===mode?'true':'false'));
+ paintLoginCooldown();
  if(!dialog.open)dialog.showModal();
 }
 async function confirmAction(message,title='确认操作'){
@@ -376,12 +398,12 @@ document.addEventListener('submit',async e=>{
  if(await submitFeatureForm(form,e))return;
  if(form.hasAttribute('data-search')){e.preventDefault();const data=new FormData(form),q=String(data.get('q')||'').trim(),city=data.get('city')||'0',type=data.get('type')||'spot';navigate((form.dataset.target||'/search')+'?q='+encodeURIComponent(q)+'&city='+city+'&type='+type+'&theme='+encodeURIComponent(data.get('theme')||'')+'&duration='+encodeURIComponent(data.get('duration')||'')+'&sort='+encodeURIComponent(data.get('sort')||'relevance'));return;}
  if(!['authForm','contentForm'].includes(form.id) && !form.hasAttribute('data-comment-form') && !form.hasAttribute('data-password-form'))return;
- e.preventDefault();if(form.id==='contentForm'&&Number(form.dataset.uploads||0)>0){toast('图片还在上传，请稍后保存',true);return;}const button=form.querySelector('[type=submit]'),errorBox=form.querySelector('.form-error');button.disabled=true;if(errorBox)errorBox.textContent='';
+ e.preventDefault();if(form.id==='authForm' && (loginCooldown.busy || $('#authSubmit').disabled))return;const submittedAuthMode=state.authMode,submittedUsername=form.id==='authForm'?form.elements.username.value:'';if(form.id==='authForm')loginCooldown.busy=true;if(form.id==='contentForm'&&Number(form.dataset.uploads||0)>0){toast('图片还在上传，请稍后保存',true);return;}const button=form.querySelector('[type=submit]'),errorBox=form.querySelector('.form-error');button.disabled=true;if(errorBox)errorBox.textContent='';
  try{
   const data=Object.fromEntries(new FormData(form));
   if(form.id==='authForm'){
    if(state.authMode==='register' && data.password!==data.confirm_password)throw new Error('两次输入的密码不一致');
-   const info=await api('/api/auth/'+state.authMode,{method:'POST',body:data});acceptSession(info);await loadFavorites();updateAccount();$('#authDialog').close();form.reset();toast(state.authMode==='register'?'注册成功，已为你登录':'登录成功');await render();
+   const info=await api('/api/auth/'+submittedAuthMode,{method:'POST',body:data});acceptSession(info);await loadFavorites();updateAccount();$('#authDialog').close();form.reset();toast(state.authMode==='register'?'注册成功，已为你登录':'登录成功');await render();
    if(state.user.must_change_password){featureState.pending=null;navigate('/me?tab=password');toast('请先修改临时密码');}else await resumeFeatureIntent();
   }else if(form.hasAttribute('data-comment-form')){
    const id=form.dataset.commentForm;await api('/api/guides/'+id+'/comments',{method:'POST',body:{body:data.body}});state.drafts.delete(id);toast('评论已发表');await render();document.querySelector('.comments-section')?.scrollIntoView({block:'start'});
@@ -394,8 +416,8 @@ document.addEventListener('submit',async e=>{
    if(form.dataset.kind==='guides'){data.sections=Array.from(form.querySelectorAll('[data-section]')).map(section=>({title:section.querySelector('[data-section-title]').value,body:section.querySelector('[data-section-body]').value}));data.spot_ids=Array.from(form.querySelectorAll('[name=spot_ids]:checked')).map(x=>Number(x.value));}
    const id=Number(form.dataset.id);if(id)data.revision=Number(form.dataset.revision);const url='/api/admin/'+form.dataset.kind+(id?'/'+id:'');await api(url,{method:id?'PUT':'POST',body:data});$('#editDialog').close();toast('内容已保存');await render();
   }
- }catch(error){if(errorBox)errorBox.textContent=error.message;else toast(error.message,true);if(error.status===401 && form.id!=='authForm')openAuth();}
- finally{button.disabled=false;}
+ }catch(error){if(form.id==='authForm' && submittedAuthMode==='login' && error.code==='LOGIN_COOLDOWN')rememberLoginCooldown(error,submittedUsername);if(errorBox)errorBox.textContent=error.message;else toast(error.message,true);if(error.status===401 && form.id!=='authForm')openAuth();}
+ finally{if(form.id==='authForm'){loginCooldown.busy=false;paintLoginCooldown();}else button.disabled=false;}
 });
 window.addEventListener('popstate',async event=>{
  if(restoringRoute){restoringRoute=false;return;}
@@ -409,3 +431,5 @@ window.addEventListener('popstate',async event=>{
 });
 document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon));
 (async()=>{try{await Promise.all([refreshSession(),api('/api/cities').then(x=>state.cities=x)]);await loadFavorites();await render();if(state.user?.must_change_password && location.pathname!=='/me')navigate('/me?tab=password');}catch(error){$('#main').innerHTML='<div class="error-page"><h1>暂时无法连接网站</h1><p>'+esc(error.message)+'</p><button class="button" data-action="retry">重新加载</button></div>';}})();
+
+document.querySelector('#authForm [name=username]').addEventListener('input',paintLoginCooldown);

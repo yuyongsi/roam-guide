@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="/css/print-itinerary.css?v=20261027-1">
   <script src="/js/print-itinerary.js?v=20261027-1" defer></script>
   <script src="/js/form-safety.js?v=20261026-19" defer></script>
-  <script src="/js/app.js?v=20261027-1" defer></script>
+  <script src="/js/app.js?v=20261027-2" defer></script>
   <link rel="stylesheet" href="/css/maps-audit.css?v=20261026-19">
   <link rel="stylesheet" href="/css/theme.css?v=20261026-19">
 </head>
@@ -96,6 +96,7 @@
       <label>密码<input name="password" type="password" autocomplete="current-password" required maxlength="128" placeholder="输入密码"></label>
       <label id="confirmPasswordLabel" hidden>确认密码<input name="confirm_password" type="password" autocomplete="new-password" maxlength="128" placeholder="再输入一次密码"></label>
       <p id="authError" class="form-error" role="alert"></p>
+      <p id="authCooldown" class="muted small-text" aria-live="off"></p>
       <button class="button full" type="submit" id="authSubmit">登录</button>
     </form>
     <p class="fine-print" id="authFootnote">你的收藏、行程和帖子会保存在这个账号中。</p>
