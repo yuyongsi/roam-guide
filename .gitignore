@@ -1,0 +1,7 @@
+target/
+data/
+.idea/
+*.log
+.DS_Store
+*.log.gz
+runtime/

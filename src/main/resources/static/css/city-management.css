@@ -1,0 +1,16 @@
+.modal:has(.city-create-form){width:min(860px,calc(100vw - 60px));padding:27px 32px}
+.city-modal-intro{line-height:1.8;margin-bottom:19px}
+.city-select-columns{display:grid;grid-template-columns:1fr 1.25fr;gap:25px}
+.city-select-columns section{min-width:0;display:flex;flex-direction:column;gap:8px}
+.city-select-columns label{font-size:13px;color:#4f6c78}
+.city-select-columns input{margin-bottom:6px;height:41px;padding:9px 12px;border:1px solid #d5e2e7;border-radius:5px;color:#234551;background:#fff;font-family:inherit;font-size:14px}
+.city-select-columns select{height:224px;min-width:0;padding:5px;background:#fff;color:#234551;font-family:inherit;font-size:14px;border:1px solid #d5e2e7;border-radius:5px}
+.city-select-columns option{padding:6px 9px;line-height:1.5;border-radius:3px}
+.city-select-columns option:disabled{color:#8a969b;background:#f3f6f7}
+.city-selection{padding:12px 15px;margin:17px 0 9px;background:#eef7f7;border-radius:5px;color:#28606b;font-size:14px}
+.city-stage{display:inline-block;white-space:nowrap;border-radius:4px;padding:4px 9px;font-size:12px}
+.city-stage.live{background:#e9f5ef;color:#3b7862}
+.city-stage.draft{background:#fbf2e3;color:#8a652f}
+.city-cover-preview{height:150px;display:flex;align-items:center;justify-content:center;border:1px solid #d9e5e9;border-radius:7px;background:#f1f6f7;color:#718792;font-size:13px;overflow:hidden}
+.city-cover-preview img{height:100%;width:100%;object-fit:cover}
+.city-create-form .button-row{margin-top:15px}

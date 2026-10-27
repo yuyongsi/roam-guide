@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#163b49"><meta name="robots" content="noindex">
+  <title th:text="${status == 404 ? '页面未找到 · 漫游' : '暂时无法完成 · 漫游'}">暂时无法完成 · 漫游</title>
+  <script src="/js/theme.js?v=20261026-19"></script>
+  <link rel="stylesheet" href="/css/errors.css?v=20261026-19">
+  <link rel="icon" href="/assets/compass.svg" type="image/svg+xml">
+  <script src="/js/error-page.js?v=20261026-19" defer></script>
+</head>
+<body>
+  <header><a class="error-brand" href="/"><img src="/assets/compass.svg" width="40" height="40" alt=""><span>漫游<small>旅行指南</small></span></a><a href="/destinations">探索目的地</a></header>
+  <main class="standalone-error">
+    <p class="error-number" th:text="${status}">500</p>
+    <h1 th:text="${status == 404 ? '这段路暂时没有找到' : status == 413 ? '图片有点大，换一张再试' : status == 403 ? '当前无法访问这里' : '这一步暂时没有完成'}">这一步暂时没有完成</h1>
+    <p class="error-description" th:text="${message}">服务暂时遇到问题，请稍后重试</p>
+    <p class="error-help" th:text="${status == 404 ? '链接可能有误，或内容已经调整。可以回到首页，继续寻找想去的地方。' : '可以稍后重新加载；如果问题持续，请在反馈中提供下方的问题编号。'}"></p>
+    <div class="error-buttons"><a class="error-primary" href="/">返回首页</a><button type="button" id="reloadErrorPage">重新加载</button></div>
+    <details class="error-reference"><summary>查看问题编号</summary><code th:text="${request_id}"></code></details>
+  </main>
+  <footer>发现值得停留的地方，把出发前的准备做得更从容。</footer>
+</body>
+</html>

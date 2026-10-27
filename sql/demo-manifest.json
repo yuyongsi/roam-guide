@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "application": "roam-guide",
+  "dataset_version": "classroom-demo-20261026",
+  "sha256": "8bdda014ae5645a00b0ad2667fa810a05149b631d0d2b93baf5e4a6ceae72f88",
+  "counts": {
+    "cities": 5,
+    "spots": 30,
+    "guides": 22,
+    "foods": 10,
+    "users": 16,
+    "comments": 66,
+    "social_posts": 12,
+    "social_comments": 24,
+    "shared_routes": 10,
+    "trips": 13,
+    "admin_audit_logs": 0
+  },
+  "description": "课程演示账号、内容与示例行程；不包含真实到访、私人照片、反馈或历史管理员操作。"
+}

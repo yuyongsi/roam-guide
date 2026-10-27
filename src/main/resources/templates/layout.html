@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:fragment="page">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="发现不同地区的景点与实用攻略，收藏想去的地方，分享你的旅行想法。">
+  <meta name="theme-color" content="#163b49">
+  <title>漫游 · 旅行指南</title>
+  <script src="/js/theme.js?v=20261026-19"></script>
+  <link rel="icon" href="/assets/compass.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css?v=20261026-19">
+  <link rel="stylesheet" href="/css/features.css?v=20261026-19">
+  <script src="/js/features.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/community.css?v=20261026-19">
+  <link rel="stylesheet" href="/css/feedback.css?v=20261026-19">
+  <script src="/js/community.js?v=20261026-19" defer></script>
+  <script src="/js/feedback.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/social.css?v=20261026-19">
+  <link rel="stylesheet" href="/css/food.css?v=20261026-19">
+  <script src="/js/social.js?v=20261026-19" defer></script>
+  <script src="/js/food.js?v=20261026-19" defer></script>
+  <script src="/js/discover.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/polish.css?v=20261026-19">
+  <link rel="stylesheet" href="/css/compare.css?v=20261026-19">
+  <link rel="stylesheet" href="/css/budget.css?v=20261026-19">
+  <script src="/js/compare.js?v=20261026-19" defer></script>
+  <script src="/js/budget.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/experience.css?v=20261026-19">
+  <script src="/js/experience.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/recommend-depth.css?v=20261026-19">
+  <script src="/js/recommend-depth.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/planner-depth.css?v=20261026-19">
+  <script src="/js/planner-depth.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/meals.css?v=20261026-19">
+  <script src="/js/meals.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/depth.css?v=20261026-19">
+  <script src="/js/depth.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/trip-versions.css?v=20261026-19">
+  <script src="/js/trip-versions.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/constraint-planner.css?v=20261026-19">
+  <script src="/js/constraint-planner.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/fulltext-search.css?v=20261026-19">
+  <script src="/js/fulltext-search.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/city-management.css?v=20261026-19">
+  <script src="/js/city-management.js?v=20261026-19" defer></script>
+  <script src="/js/maps-audit.js?v=20261026-19" defer></script>
+  <script src="/js/form-safety.js?v=20261026-19" defer></script>
+  <script src="/js/app.js?v=20261026-19" defer></script>
+  <link rel="stylesheet" href="/css/maps-audit.css?v=20261026-19">
+  <link rel="stylesheet" href="/css/theme.css?v=20261026-19">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="漫游首页">
+        <img src="/assets/compass.svg" width="34" height="34" alt="">
+        <span>漫游<small>旅行指南</small></span>
+      </a>
+      <nav class="main-nav" aria-label="主要导航">
+        <a href="/" data-nav="home">首页</a>
+        <a href="/destinations" data-nav="destinations">目的地</a>
+        <a href="/guides" data-nav="guides">旅行攻略</a>
+        <a href="/food" data-nav="food">美食探索</a>
+        <a href="/community" data-nav="community">旅行社区</a>
+        <a href="/routes" data-nav="routes">路线广场</a>
+        <a href="/trips" data-nav="trips">我的行程</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="切换到黑夜模式" aria-pressed="false" title="当前：白天模式"></button>
+        <a class="icon-button" href="/search" aria-label="搜索景点和攻略" data-icon="search"></a>
+        <button type="button" class="icon-button experience-bell" data-exp="notifications" aria-label="消息中心"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5l-2 3Zm5 3h4"/></svg><span id="experienceBadge" hidden></span></button>
+        <div id="accountActions"><button class="button small" data-auth="login">登录 / 注册</button></div>
+      </div>
+    </div>
+  </header>
+  <main id="main" tabindex="-1"><div class="loading"><span class="spinner"></span>正在准备旅行灵感…</div></main>
+  <footer class="site-footer">
+    <div><a class="brand footer-brand" href="/">漫游</a><p>发现值得停留的地方，把出发前的准备做得更从容。</p></div>
+    <div class="footer-links"><a href="/destinations">探索目的地</a><a href="/guides">阅读攻略</a><a href="/food">美食探索</a><a href="/community">旅行社区</a><a href="/feedback">意见反馈</a><a href="/credits.html" target="_blank" rel="noopener">图片与资料来源</a></div>
+    <span class="footer-note">带着好奇出发，尊重沿途的生活。</span>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="authDialog" class="modal auth-modal">
+    <button class="close-button" data-close="authDialog" aria-label="关闭登录窗口">×</button>
+    <div class="auth-decoration"><img src="/assets/compass.svg" width="40" height="40" alt=""><span>漫游</span></div>
+    <h2 id="authHeading">欢迎回来</h2>
+    <p id="authIntro" class="muted">登录后，安排旅行、收藏美食，参与社区交流。</p>
+    <div class="tabs auth-tabs" role="tablist" aria-label="账号操作">
+      <button type="button" data-auth-tab="login" role="tab" aria-selected="true">登录</button>
+      <button type="button" data-auth-tab="register" role="tab" aria-selected="false">注册</button>
+    </div>
+    <form id="authForm" class="form-stack">
+      <label>用户名<input name="username" autocomplete="username" required maxlength="24" placeholder="输入用户名"></label>
+      <label>密码<input name="password" type="password" autocomplete="current-password" required maxlength="128" placeholder="输入密码"></label>
+      <label id="confirmPasswordLabel" hidden>确认密码<input name="confirm_password" type="password" autocomplete="new-password" maxlength="128" placeholder="再输入一次密码"></label>
+      <p id="authError" class="form-error" role="alert"></p>
+      <button class="button full" type="submit" id="authSubmit">登录</button>
+    </form>
+    <p class="fine-print" id="authFootnote">你的收藏、行程和帖子会保存在这个账号中。</p>
+  </dialog>
+  <dialog id="editDialog" class="modal edit-modal"><button class="close-button" data-close="editDialog" aria-label="关闭编辑窗口">×</button><div id="editBody"></div></dialog>
+  <dialog id="featureDialog" class="modal edit-modal"><button class="close-button" data-close="featureDialog" aria-label="关闭行程与资料窗口">×</button><div id="featureBody"></div></dialog>
+  <dialog id="galleryDialog" class="modal gallery-modal"><button class="close-button" data-close="galleryDialog" aria-label="关闭图片预览">×</button><div id="galleryBody"></div></dialog>
+  <dialog id="confirmDialog" class="modal confirm-modal">
+    <h2 id="confirmTitle">确认操作</h2><p id="confirmText"></p>
+    <div class="button-row"><button class="button secondary" id="confirmNo">取消</button><button class="button" id="confirmYes">确认</button></div>
+  </dialog>
+</body>
+</html>

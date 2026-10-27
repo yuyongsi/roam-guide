@@ -1,0 +1,57 @@
+# 约束规划算法独立检查
+
+只依赖 JDK 17 或更新版本，不访问网络或数据库。在项目根目录执行：
+
+    javac --release 17 -encoding UTF-8 -d target/planner-check src/main/java/cn/edu/travel/ConstraintPlanner.java tests/verify_constraint_core.java
+    java -cp target/planner-check verify_constraint_core
+
+检查直接调用实际 ConstraintPlanner，包含固定日期、必去、时段合计、唯一站点、确定性和搜索上限分支。240 组固定随机种子的小例与穷举分配可行性对照；另检查18候选7天的有界负载。耗时是本机单次观测，不作为性能保证。
+
+
+# 中文全文搜索检查
+
+先在项目目录完成 mvn package，以下检查直接调用实际实现，依赖JDK 17+：
+
+    javac --release 17 -encoding UTF-8 -cp target/classes -d target/search-check src/main/java/cn/edu/travel/SearchText.java tests/verify_search_text.java
+    java -cp "target/search-check;target/classes" verify_search_text
+
+Windows classpath分隔符为分号；Linux/macOS请改为冒号。共421项断言，覆盖原文映射、全角、英文词边界、组合词、标点边界、短语、Unicode补充字符与摘录。
+
+启动网站后，使用Python 3标准库运行真实接口/数据库检查：
+
+    python tests/verify_fulltext.py
+
+使用公开体验管理员进行临时内容的创建与修改；finally清理本次创建的临时数据，城市临时更名也会恢复。请在本地课程体验数据库中运行，运行期间不要并行编辑内容。检查39项，并将结果写入target/fulltext-checks.json。
+
+前端转义检查使用Node.js，无第三方依赖：
+
+    node tests/verify_fulltext_ui.cjs
+
+
+# 六项审阅修复的严格检查
+
+启动网站后使用Python标准库执行：
+
+    python tests/verify_audit_fixes.py
+
+默认连接本机8818端口和项目data/guide.db。可设置ROAM_BASE与ROAM_QA_DB对独立测试副本运行。29项检查使用原始Session，不自动补充缺少的版本；创建带qa_fix前缀的账号与临时内容，finally按本次记录的编号清理。请勿在检查期间并行编辑这些临时内容。
+
+    node tests/verify_form_safety.cjs
+
+27项断言直接加载实际表单保护与身份接收函数，检查未保存提醒、关闭取消、离开保护、动态字段、身份隔离和匿名登录后继续操作。
+
+既有全文搜索基线检查的VersionedSession只在没有显式版本时读取当前版本，适配升级后的请求格式；严格缺参与旧版本测试不采用该辅助。
+
+
+# 城市管理严格检查
+
+    python tests/verify_city_management.py
+
+31项检查使用Python标准库及原始Session，覆盖目录、省市校验、并发去重、版本冲突、待完善内容隔离和展示条件。默认连接8818与项目data/guide.db；建议设置ROAM_BASE与ROAM_QA_DB指向独立测试服务及其数据库，检查期间不要并行编辑内容。只清理本次记录的临时编号，不删除已有城市；结果写入target/city-management-checks.json。详见docs/city-management.md。
+
+
+# 评论时间排序检查
+
+    python tests/verify_comment_order.py
+
+只使用Python标准库与内存数据库，执行实际Java文件中的4条列表查询。编号与时间特意交错，并安排两个相同时间，断言按时间倒序、同刻按编号倒序；不连接或修改真实数据库。

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <springProperty scope="context" name="ROAM_LOG_DIR" source="roam.logging.directory" defaultValue="data/logs"/>
+  <springProperty scope="context" name="ROAM_LOG_SIZE" source="roam.logging.max-file-size" defaultValue="5MB"/>
+  <springProperty scope="context" name="ROAM_LOG_DAYS" source="roam.logging.max-history" defaultValue="14"/>
+  <springProperty scope="context" name="ROAM_LOG_CAP" source="roam.logging.total-size-cap" defaultValue="50MB"/>
+  <property name="LINE" value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,Asia/Shanghai} %-5level [%thread] request_id=%X{requestId:-none} %logger{36} - %msg%n%nopex"/>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender"><encoder><charset>UTF-8</charset><pattern>${LINE}</pattern></encoder></appender>
+  <appender name="RUNTIME" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${ROAM_LOG_DIR}/runtime.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${ROAM_LOG_DIR}/archive/runtime.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+      <maxFileSize>${ROAM_LOG_SIZE}</maxFileSize><maxHistory>${ROAM_LOG_DAYS}</maxHistory><totalSizeCap>${ROAM_LOG_CAP}</totalSizeCap><cleanHistoryOnStart>true</cleanHistoryOnStart>
+    </rollingPolicy>
+    <encoder><charset>UTF-8</charset><pattern>${LINE}</pattern></encoder>
+  </appender>
+  <appender name="REQUESTS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${ROAM_LOG_DIR}/requests.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${ROAM_LOG_DIR}/archive/requests.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+      <maxFileSize>${ROAM_LOG_SIZE}</maxFileSize><maxHistory>${ROAM_LOG_DAYS}</maxHistory><totalSizeCap>${ROAM_LOG_CAP}</totalSizeCap><cleanHistoryOnStart>true</cleanHistoryOnStart>
+    </rollingPolicy>
+    <encoder><charset>UTF-8</charset><pattern>${LINE}</pattern></encoder>
+  </appender>
+  <logger name="roam.requests" level="INFO" additivity="false"><appender-ref ref="REQUESTS"/></logger>
+  <root level="WARN"><appender-ref ref="CONSOLE"/><appender-ref ref="RUNTIME"/></root>
+</configuration>

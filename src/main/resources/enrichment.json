@@ -1,0 +1,402 @@
+{
+  "cities": [
+    {
+      "id": 1,
+      "food": "片儿川适合安排成一顿坐下来的正餐，葱包桧更适合作为街巷步行中的少量加餐。先确认份量、浇头和酱料，再决定是否加点；用餐地点顺着当天路线选，无须为了尝小吃往返不同湖岸。两人同行可分开选择主食与小吃，给下一餐留一点余地。",
+      "travel_advice": "订住处时比较“到达车站—住处—当天起点”三段位置，而不只看是否写着西湖附近。湖边步行、公交换乘与前往灵隐的交通分别查询；返程选容易定位的入口或站点。旅行日最后一段先留给取行李和进站，避免用全部余量去追加景点。",
+      "visit_advice": "第一次来，建议把两天拆成“湖岸一天、山林半天加机动半天”。湖岸选定起点与返程点，中间穿插坐下休息；灵隐参观单独核对入园安排，不把湖面上的直线距离当作转场时间。只有半天就留在一个片区，轻雨时缩短户外步行，大雨时优先改期。",
+      "food_source": "https://www.hangzhou2022.cn/shipin/202310/P020231016575248816044.pdf"
+    },
+    {
+      "id": 2,
+      "food": "钟水饺、担担面可以分到不同餐次，不必一顿尝完。点红油类小吃时具体说明辣油、蒜和调味是否分放，不能只用“少辣”代替沟通。先问份量，再决定是加餐还是正餐；同行有人口味清淡时，可以各自选主食，再共享少量适合分食的小吃。",
+      "travel_advice": "先标出公园、两处街区与住处，逐段查询地铁、公交及步行接驳；不要因为都在城区就默认步行相连。街区结束后，约定清晰的集合点再离开人群。雨天可缩短露天步行，调整为已经核实开放的室内参观或一顿完整的用餐，保留返程余量。",
+      "visit_advice": "两天玩法可分成“公园与宽窄巷子”和“锦里及周边文化参观”两条线，各留半天弹性。宽窄巷子与锦里不必连续赶场：一处偏院落观察，一处适合结合周边文化安排。只有一天时选两项重点即可，把茶座当作正式停留，而不是赶路之间随便坐一下。",
+      "food_source": "https://lzhbwg.mofcom.gov.cn/edi_ecms_web_front/thb/detail/8cf137a439d24c3a8ed22112e6243665"
+    },
+    {
+      "id": 3,
+      "food": "牛肉汤可与参观前后的正餐结合，先询问配饼、肉量与加料是否单独计费，再按饭量选择。新野板面属于另一条地方食味线索，新野县与南阳市区景点不是同一个步行片区；市区能否找到合适店铺应查具体位置，不为菜名临时增加一趟跨县往返。",
+      "travel_advice": "武侯祠与汉画馆可作为同一片区考虑，但入口、开放与预约分别核对；到医圣祠另查完整去返路线。出发前保存正式场所名称，避免把名称相近的纪念地混淆。准备深度参观时给展签、讲解和休息留时间，最后一处结束后再安排用餐或返回，不用走马观花补足数量。",
+      "visit_advice": "一天可围绕卧龙岗和汉画馆组织，上午看建筑与碑刻，午后选画像石主题细读；实际顺序仍以各场所当天开放安排为准。两天则把医圣祠放到另一段，增加人物文化的阅读。带长辈或孩子时，每处只设一个问题，例如“这幅车马图在讲什么”，比连续背诵人物年表更容易投入。",
+      "food_source": "https://www.nanyang.gov.cn/mlny/dxwh/msfq/"
+    },
+    {
+      "id": 4,
+      "food": "面线糊与烧肉粽适合分开品尝：前者先选基础份再确认加料，后者先问大小和馅料。面线糊的不同配料可能分别计价，肉粽的蘸酱也可先少量尝试。安排小吃时留一段坐着吃的时间，不一边穿过拥挤街巷一边端热汤；完整一餐后再决定是否继续加餐。",
+      "travel_advice": "把古城住处、开元寺入口与洛阳桥实际位置同时放上地图，先看转场是否顺路。古城短距离适合按体力步行，前往古桥则另查交通，不能按两个地名之间的直线估时。遇到街巷人流集中时，提前约定易识别的集合点，结束游览后再从方便接驳的位置返程。",
+      "visit_advice": "古城半日可围绕开元寺和西街，先看寺院整体，再选一段街巷，不追逐全部机位。第二天或另一个半天再考虑洛阳桥，提前确认往返交通；若只有一天，宁可保留古城的完整步行，也不要压缩古桥到只剩下车拍照。雨天先减少桥面和石板路停留，再按开放情况调整。",
+      "food_source": "https://scjgj.quanzhou.gov.cn/xxgk/zfxxgk/fdzdgknr/yzdgkdqtzfxx/202501/t20250102_3125844.htm"
+    },
+    {
+      "id": 5,
+      "food": "乳扇可以少量尝试，点单时确认做法、酱料与份量；不喜欢奶香或甜味的人可以与同伴分食。巍山耙肉饵丝属于大理州另一片区的风味，巍山县不等于大理古城附近。已有古城与湖岸计划时，先找顺路的餐食，不要只为一种小吃临时加一趟跨片区赶路。",
+      "travel_advice": "订交通前先区分大理站、下关城区、古城与湖岸的具体位置。选定湖岸去处时同步查返程，不把“洱海”当作一个固定下车点；同日组合三塔与古城也应查询实际接驳。带行李换住宿会占据时间，尽量把移动放在一天的开头或结尾，避免来回折返取物。",
+      "visit_advice": "两天可安排“古城加三塔”和“一段湖岸”两种主题，实际先后顺序随天气调整。三天时增加半天抵达与休息余量，不必把多出来的时间全部变成环湖点位。湖岸只选一个明确片区，古城只选几条街细走，比较适合希望拍照、阅读和吃饭都不赶的人。",
+      "food_source": "https://www.yndali.gov.cn/dlsrmzf/c103383/pc/content/1981555777511460864/content_1981555777511460864.html"
+    }
+  ],
+  "spots": [
+    {
+      "id": 1,
+      "theme": "山水风景",
+      "duration_minutes": 240,
+      "gallery": [
+        "/assets/hangzhou.jpg",
+        "/assets/hangzhou-lake.jpg"
+      ]
+    },
+    {
+      "id": 2,
+      "theme": "街巷生活",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/chengdu.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "theme": "街巷生活",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/chengdu-jinli.jpg"
+      ]
+    },
+    {
+      "id": 4,
+      "theme": "人文历史",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/nanyang.jpg",
+        "/assets/nanyang-temple.jpg",
+        "/assets/nanyang-hero.jpg"
+      ]
+    },
+    {
+      "id": 5,
+      "theme": "人文历史",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/quanzhou.jpg"
+      ]
+    },
+    {
+      "id": 6,
+      "theme": "山水风景",
+      "duration_minutes": 360,
+      "gallery": [
+        "/assets/dali.jpg"
+      ]
+    },
+    {
+      "id": 7,
+      "theme": "街巷生活",
+      "duration_minutes": 180,
+      "gallery": [
+        "/assets/dali-town.jpg"
+      ]
+    },
+    {
+      "id": 21,
+      "theme": "人文历史",
+      "duration_minutes": 180,
+      "gallery": [
+        "/assets/hangzhou-lingyin.jpg"
+      ]
+    },
+    {
+      "id": 22,
+      "theme": "街巷生活",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/chengdu-park.jpg"
+      ]
+    },
+    {
+      "id": 23,
+      "theme": "人文历史",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/nanyang-han.jpg"
+      ]
+    },
+    {
+      "id": 24,
+      "theme": "人文历史",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/nanyang-medical.jpg"
+      ]
+    },
+    {
+      "id": 25,
+      "theme": "人文历史",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/quanzhou-bridge.jpg"
+      ]
+    },
+    {
+      "id": 26,
+      "theme": "人文历史",
+      "duration_minutes": 180,
+      "gallery": [
+        "/assets/dali-pagodas.jpg"
+      ]
+    },
+    {
+      "id": 201,
+      "theme": "人文历史",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/place-201.jpg"
+      ]
+    },
+    {
+      "id": 202,
+      "theme": "人文历史",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-202.jpg"
+      ]
+    },
+    {
+      "id": 203,
+      "theme": "人文历史",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-203.jpg",
+        "/assets/place-203-detail.jpg"
+      ]
+    },
+    {
+      "id": 204,
+      "theme": "山水风景",
+      "duration_minutes": 240,
+      "gallery": [
+        "/assets/place-204.jpg"
+      ]
+    },
+    {
+      "id": 205,
+      "theme": "人文历史",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/place-205.jpg"
+      ]
+    },
+    {
+      "id": 206,
+      "theme": "人文历史",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/place-206.jpg",
+        "/assets/place-206-detail.jpg"
+      ]
+    },
+    {
+      "id": 207,
+      "theme": "人文历史",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/place-207.jpg",
+        "/assets/place-207-detail.jpg"
+      ]
+    },
+    {
+      "id": 208,
+      "theme": "人文历史",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-208.jpg"
+      ]
+    },
+    {
+      "id": 209,
+      "theme": "人文历史",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/place-209.jpg",
+        "/assets/place-209-detail.jpg"
+      ]
+    },
+    {
+      "id": 210,
+      "theme": "人文历史",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-210.jpg"
+      ]
+    },
+    {
+      "id": 211,
+      "theme": "人文历史",
+      "duration_minutes": 60,
+      "gallery": [
+        "/assets/place-211.jpg"
+      ]
+    },
+    {
+      "id": 212,
+      "theme": "人文历史",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-212.jpg",
+        "/assets/place-212-detail.jpg"
+      ]
+    },
+    {
+      "id": 213,
+      "theme": "人文历史",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/place-213.jpg"
+      ]
+    },
+    {
+      "id": 214,
+      "theme": "街巷生活",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-214.jpg"
+      ]
+    },
+    {
+      "id": 215,
+      "theme": "街巷生活",
+      "duration_minutes": 150,
+      "gallery": [
+        "/assets/place-215.jpg"
+      ]
+    },
+    {
+      "id": 216,
+      "theme": "人文历史",
+      "duration_minutes": 120,
+      "gallery": [
+        "/assets/place-216.jpg"
+      ]
+    },
+    {
+      "id": 217,
+      "theme": "山水风景",
+      "duration_minutes": 90,
+      "gallery": [
+        "/assets/place-217.jpg",
+        "/assets/place-217-detail.jpg"
+      ]
+    }
+  ],
+  "guides": [
+    {
+      "id": 1,
+      "theme": "山水风景",
+      "duration_minutes": 480
+    },
+    {
+      "id": 2,
+      "theme": "街巷生活",
+      "duration_minutes": 480
+    },
+    {
+      "id": 3,
+      "theme": "人文历史",
+      "duration_minutes": 480
+    },
+    {
+      "id": 4,
+      "theme": "人文历史",
+      "duration_minutes": 480
+    },
+    {
+      "id": 5,
+      "theme": "山水风景",
+      "duration_minutes": 960
+    },
+    {
+      "id": 6,
+      "theme": "街巷生活",
+      "duration_minutes": 240
+    },
+    {
+      "id": 7,
+      "theme": "人文历史",
+      "duration_minutes": 240
+    },
+    {
+      "id": 21,
+      "theme": "人文历史",
+      "duration_minutes": 480
+    },
+    {
+      "id": 22,
+      "theme": "街巷生活",
+      "duration_minutes": 480
+    },
+    {
+      "id": 23,
+      "theme": "人文历史",
+      "duration_minutes": 960
+    },
+    {
+      "id": 24,
+      "theme": "人文历史",
+      "duration_minutes": 480
+    },
+    {
+      "id": 25,
+      "theme": "人文历史",
+      "duration_minutes": 960
+    },
+    {
+      "id": 101,
+      "theme": "山水风景",
+      "duration_minutes": 960
+    },
+    {
+      "id": 102,
+      "theme": "山水风景",
+      "duration_minutes": 240
+    },
+    {
+      "id": 103,
+      "theme": "街巷生活",
+      "duration_minutes": 480
+    },
+    {
+      "id": 104,
+      "theme": "街巷生活",
+      "duration_minutes": 960
+    },
+    {
+      "id": 105,
+      "theme": "人文历史",
+      "duration_minutes": 240
+    },
+    {
+      "id": 106,
+      "theme": "人文历史",
+      "duration_minutes": 960
+    },
+    {
+      "id": 107,
+      "theme": "街巷生活",
+      "duration_minutes": 240
+    },
+    {
+      "id": 108,
+      "theme": "人文历史",
+      "duration_minutes": 480
+    },
+    {
+      "id": 109,
+      "theme": "山水风景",
+      "duration_minutes": 1440
+    },
+    {
+      "id": 110,
+      "theme": "山水风景",
+      "duration_minutes": 240
+    }
+  ]
+}
