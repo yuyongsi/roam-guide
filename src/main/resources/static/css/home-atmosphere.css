@@ -1,0 +1,32 @@
+/* Subtle map paper for the two discovery sections on the home page only. */
+.home-destinations,
+.home-spots {
+  position: relative;
+  isolation: isolate;
+  padding: 30px 30px 28px;
+  overflow: hidden;
+  border: 1px solid #dce8e6;
+  background-color: #f4f8f7;
+  background-image: repeating-radial-gradient(ellipse at 13% 22%, transparent 0 32px, rgba(92, 145, 145, .075) 33px 34px, transparent 35px 58px);
+}
+.home-destinations { margin: 60px 0 10px; border-radius: 5px 18px 5px 18px; }
+.home-spots { margin: 56px 0 10px; padding-top: 28px; border-radius: 18px 5px 18px 5px; background-color: #edf4f3; background-position: 76% 84%; }
+.home-destinations > *, .home-spots > * { position: relative; z-index: 1; }
+.home-destinations .section-heading,
+.home-spots .section-heading { margin-bottom: 23px; }
+.home-destinations .dest-grid { gap: 16px; }
+.home-destinations .destination-tile { border-radius: 7px; box-shadow: 0 5px 16px rgba(22, 59, 73, .12); }
+.home-spots .content-grid { gap: 18px 16px; }
+.home-spots .content-card { overflow: hidden; border: 1px solid #dce7e5; border-radius: 7px; background: #fbfdfc; box-shadow: 0 4px 15px rgba(22, 59, 73, .075); }
+.home-spots .card-info { padding: 13px 15px 15px; }
+.home-spots .card-info p { margin-bottom: 2px; }
+@media (max-width: 720px) {
+  .home-destinations, .home-spots { padding: 20px 16px 18px; margin-top: 38px; border-radius: 4px 12px; }
+  .home-destinations .dest-grid { gap: 11px; }
+  .home-spots .content-grid { gap: 14px 10px; }
+  .home-spots .card-info { padding: 10px 10px 12px; }
+}
+html[data-theme="dark"] .home-destinations,
+html[data-theme="dark"] .home-spots { border-color: var(--night-line); background-color: var(--night-page); }
+html[data-theme="dark"] .home-destinations .destination-tile { box-shadow: 0 5px 16px rgba(0, 0, 0, .22); }
+html[data-theme="dark"] .home-spots .content-card { border-color: var(--night-line); background: var(--night-surface); box-shadow: 0 4px 15px rgba(0, 0, 0, .2); }
