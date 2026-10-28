@@ -129,9 +129,7 @@ async function home(){
 }
 async function destinations(slug){
  if(!slug)return destinationExplorerPage();
- const city=state.cities.find(x=>x.slug===slug);if(!city)throw new Error('这个目的地还没有收录');
- const [spots,guides]=await Promise.all([api('/api/search?type=spot&size=24&city='+city.id),api('/api/search?type=guide&size=24&city='+city.id)]);
- return '<div class="explore-canvas"><div class="container explore-page destination-detail">'+crumb([{label:'目的地',url:'/destinations'},{label:city.name}])+'<section class="city-banner"><img src="'+esc(city.image)+'" alt="'+esc(city.name)+'"><div><span class="city-province">'+esc(city.province)+'</span><h1>'+esc(city.name)+'</h1><p>'+esc(city.description)+'</p></div></section>'+cityEssentials(city)+'<section class="city-subsections">'+sectionHeading('值得停留的景点','先认识一个地方，再安排怎样出发。')+(spots.items.length?grid(spots.items,'spot'):empty('景点正在整理','可以先看看其他目的地。','/destinations','探索其他目的地'))+'</section><section class="section">'+sectionHeading('关于这里的攻略','把交通、节奏和游玩安排想在出发前。')+(guides.items.length?grid(guides.items,'guide'):empty('攻略正在整理','新的内容会在这里更新。'))+'</section></div></div>';
+ return cityStoryPage(slug);
 }
 async function searchPage(onlyGuides=false){
  const p=new URLSearchParams(location.search),q=p.get('q')||'',city=p.get('city')||'0',type=onlyGuides?'guide':(p.get('type')==='guide'?'guide':'spot'),page=Math.max(1,Number(p.get('page')||1));
