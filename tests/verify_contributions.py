@@ -291,13 +291,15 @@ def main():
     alice.call("PUT", f"/api/me/contributions/{spot['id']}", {"revision": 1, "payload": p}, status=409)
     # A foreign private-image URL must fail even though the URL is syntactically valid.
     draft_b = contribution(bob, "spot")
-    draft_b = bob.call("PUT", f"/api/me/contributions/{draft_b['id']}",
-                       {"revision": draft_b["revision"], "payload": spot_payload("QA他人图片", city_id, image=private_url)})
-    bob.call("POST", f"/api/me/contributions/{draft_b['id']}/submit", {"revision": draft_b["revision"]}, status=400)
+    bob.call("PUT", f"/api/me/contributions/{draft_b['id']}",
+             {"revision": draft_b["revision"], "payload": spot_payload("QA他人图片", city_id, image=private_url)}, status=400)
+    alice.call("PUT", f"/api/me/contributions/{blank['id']}",
+               {"revision": partial["revision"], "payload": {"image": "/api/contribution-images/00000000-0000-0000-0000-000000000000.jpg"}}, status=400)
+    bad_image_revision = spot["revision"]
     p["gallery"] = ["/api/contribution-images/00000000-0000-0000-0000-000000000000.jpg"]
-    invalid_image_draft = alice.call("PUT", f"/api/me/contributions/{spot['id']}", {"revision": spot["revision"], "payload": p})
-    alice.call("POST", f"/api/me/contributions/{spot['id']}/submit", {"revision": invalid_image_draft["revision"]}, status=400)
+    alice.call("PUT", f"/api/me/contributions/{spot['id']}", {"revision": spot["revision"], "payload": p}, status=400)
     spot = alice.call("GET", f"/api/me/contributions/{spot['id']}")
+    check("invalid private image reference is rejected without changing the draft", spot["payload"]["gallery"] == [] and spot["revision"] == bad_image_revision)
     p["gallery"] = []
     spot = edit(alice, spot, p)
     spot = submit(alice, spot)
@@ -552,6 +554,7 @@ finally:
             db.execute(f"DELETE FROM {table} WHERE id=?", (ident,))
         if users:
             marks = ",".join("?" for _ in users)
+            db.execute(f"DELETE FROM notifications WHERE user_id IN ({marks})", users)
             db.execute(f"DELETE FROM contribution_images WHERE owner_id IN ({marks})", users)
             db.execute(f"DELETE FROM users WHERE id IN ({marks})", users)
         for city_id in qa_cities:

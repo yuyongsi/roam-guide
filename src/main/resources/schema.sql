@@ -347,7 +347,8 @@ CREATE TABLE IF NOT EXISTS contributions (
  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
  submitted_at TEXT,
- reviewed_at TEXT
+ reviewed_at TEXT,
+ deleted_at TEXT
 );
 CREATE INDEX IF NOT EXISTS contributions_owner_idx ON contributions(owner_id,updated_at DESC);
 CREATE INDEX IF NOT EXISTS contributions_review_idx ON contributions(status,kind,updated_at DESC);

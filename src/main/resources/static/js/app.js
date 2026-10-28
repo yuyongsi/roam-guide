@@ -213,6 +213,7 @@ async function adminPage(){
 }
 async function render(options={}){
  const id=++state.renderId;const path=location.pathname;
+ const imageDialog=document.getElementById('contributionImageDialog');if(imageDialog?.open)imageDialog.close();
  const motion=routeMotion.begin(id,location.href,options.scroll);
  if(typeof syncTripPrintRoute==='function')syncTripPrintRoute(path);
  if(typeof syncTripToolsRoute==='function')syncTripToolsRoute();
@@ -243,6 +244,7 @@ async function render(options={}){
   if(id!==state.renderId||!await routeMotion.commit(motion,html))return;bindPlannerDepth();
   Promise.resolve().then(()=>updateCompareUi()).catch(()=>{});
   Promise.resolve().then(()=>refreshExperienceBadge()).catch(()=>{});
+  if(path==='/me'&&typeof contributionRouteReady==='function')contributionRouteReady();
   if(path.startsWith('/guide/'))loadCommentReactions(path.split('/')[2]);
  }catch(error){if(id!==state.renderId)return;await routeMotion.commit(motion,'<div class="error-page"><h1>'+(error.status===404?'内容暂时无法查看':'页面没有加载完成')+'</h1><p class="muted">'+esc(error.message)+'</p><div class="button-row" style="justify-content:center"><button class="button" data-action="retry">重新加载</button><a class="button secondary" href="/">返回首页</a></div></div>');}
 }
@@ -369,6 +371,7 @@ document.addEventListener('click',e=>{
  const href=link.getAttribute('href');if(href && href.startsWith('/') && !href.startsWith('//') && !href.endsWith('.html') && !href.startsWith('/assets/') && !href.startsWith('/uploads/')){e.preventDefault();document.querySelectorAll('details[open]').forEach(x=>x.removeAttribute('open'));navigate(href);}
 });
 document.addEventListener('input',e=>{
+ if(typeof contributionInputChanged==='function'&&contributionInputChanged(e.target))return;
  if(e.target.hasAttribute('data-city-filter'))void cityManagementChange(e.target);
  constraintPlannerChange(e.target);
  if(e.target.id==='commentBody'){const form=e.target.closest('[data-comment-form]');if(form)state.drafts.set(form.dataset.commentForm,e.target.value);}

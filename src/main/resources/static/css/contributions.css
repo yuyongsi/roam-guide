@@ -150,5 +150,36 @@ html[data-theme="dark"] .contribution-private-image img{background:var(--night-s
 html[data-theme="dark"] .contribution-review-thumb{background:var(--night-surface);border-color:var(--night-line)}
 html[data-theme="dark"] .contribution-review-history article{border-color:var(--night-line)}
 
+.contribution-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 20px}
+.contribution-trash-notice{padding:12px 15px;margin:12px 0;background:#f4f8f8;border:1px solid #d9e5e8;border-radius:7px;color:#55717a;font-size:12px;line-height:1.7}
+.contribution-save-state{display:flex;align-items:center;gap:12px;min-height:24px;margin:6px 0 8px;color:#66818a;font-size:12px}
+.contribution-save-state [data-contribution-retry]{color:#087e8b}
+.contribution-duplicate-results{padding:12px 14px;margin:12px 0 4px;border:1px solid #d9e5e8;border-radius:7px;background:#f7fafa;color:#58717a;font-size:12px;line-height:1.65}
+.contribution-duplicate-list>strong{color:#244e5c}
+.contribution-duplicate-list>p,.contribution-duplicate-empty{margin:4px 0 0;color:#82969d}
+.contribution-duplicate-list article{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #e5edef}
+.contribution-duplicate-list article>div{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 10px;min-width:0}
+.contribution-duplicate-list article a{overflow-wrap:anywhere}
+.contribution-duplicate-list article small{grid-column:2;color:#8b9ca1}
+.contribution-match{padding:2px 6px;border-radius:999px;font-size:10px;white-space:nowrap;background:#eef3f4;color:#64808a}
+.contribution-match.exact{background:#fff1d4;color:#86641d}
+.contribution-image-library{max-width:720px;border:1px solid #d9e5e8;border-radius:16px;box-shadow:0 25px 90px #0c34454d;background:#fff;color:#234551}
+.contribution-image-library::backdrop{background:#112f4490;backdrop-filter:blur(3px)}
+.contribution-image-library-list{display:grid;gap:8px;margin-top:16px}
+.contribution-image-library-item{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center;padding:11px 0;border-top:1px solid #e5edef}
+.contribution-image-library-item>img,.contribution-image-library-placeholder{width:118px;height:82px;object-fit:cover;border:1px solid #dce7e9;border-radius:6px;background:#f3f7f7}
+.contribution-image-library-placeholder{display:grid;place-items:center;color:#84979e;font-size:11px}
+.contribution-image-library-item time,.contribution-image-library-item p{display:block;margin:0 0 5px;color:#708791;font-size:12px}
+.contribution-image-library-item .text-link{margin-top:5px}
+html[data-theme="dark"] .contribution-trash-notice,html[data-theme="dark"] .contribution-duplicate-results{background:var(--night-surface);border-color:var(--night-line);color:var(--night-muted)}
+html[data-theme="dark"] .contribution-duplicate-list>strong{color:var(--night-bright)}
+html[data-theme="dark"] .contribution-duplicate-list>p,html[data-theme="dark"] .contribution-duplicate-empty,html[data-theme="dark"] .contribution-image-library-item time,html[data-theme="dark"] .contribution-image-library-item p{color:var(--night-muted)}
+html[data-theme="dark"] .contribution-duplicate-list article,html[data-theme="dark"] .contribution-image-library-item{border-color:var(--night-line)}
+html[data-theme="dark"] .contribution-match{background:var(--night-soft);color:var(--night-muted)}
+html[data-theme="dark"] .contribution-match.exact{background:var(--night-warm-surface);color:var(--night-warm)}
+html[data-theme="dark"] .contribution-image-library-item>img,html[data-theme="dark"] .contribution-image-library-placeholder{background:var(--night-surface);border-color:var(--night-line);color:var(--night-muted)}
+html[data-theme="dark"] .contribution-image-library{border-color:var(--night-line);background:var(--night-surface);color:var(--night-text)}
+html[data-theme="dark"] .contribution-image-library::backdrop{background:#040d17b3}
+
 @media(max-width:900px){.contribution-page-heading{align-items:flex-start;flex-direction:column}.contribution-page-heading>.button-row{justify-content:flex-start}.contribution-admin-filters{align-items:stretch}.contribution-admin-filters label{flex:1}.contribution-admin-filters .contribution-admin-query{min-width:100%}}
 @media(max-width:720px){.contribution-page-heading{gap:16px}.contribution-page-heading>.button-row{display:grid;grid-template-columns:1fr;align-items:stretch;width:100%}.contribution-page-heading>.button-row .button{justify-content:flex-start}.contribution-status-tabs{gap:16px;overflow-x:auto;white-space:nowrap}.contribution-card,.admin-contribution-card{padding:16px}.contribution-card-top,.admin-contribution-card-heading{gap:10px}.contribution-card h2,.admin-contribution-card h2{font-size:16px}.contribution-card-foot,.admin-contribution-card-foot{align-items:flex-start;flex-direction:column}.contribution-card-actions{justify-content:flex-start}.contribution-list-filter{align-items:flex-start}.contribution-admin-filters{display:grid;grid-template-columns:1fr 1fr}.contribution-admin-filters .contribution-admin-query{grid-column:1/-1}.contribution-admin-filters .button{justify-self:start}.contribution-dialog{padding:30px 20px;width:calc(100vw - 20px);max-height:95dvh}.contribution-dialog .contribution-dialog-heading h2{font-size:23px}.contribution-form-grid{grid-template-columns:1fr}.contribution-form-grid>label:first-child{grid-column:auto}.contribution-image-row{grid-template-columns:1fr}.contribution-image-preview{height:180px}.contribution-spot-options{grid-template-columns:1fr}.contribution-base-preview dl{grid-template-columns:1fr}.contribution-diff-wrap{overflow-x:auto}.contribution-diff{min-width:590px}.contribution-diff tbody th{width:115px}.contribution-admin-meta{gap:7px 13px}.contribution-review-form .button-row{justify-content:stretch}.contribution-review-form .button-row .button{flex:1;min-width:0}.city-story-contribution-actions{gap:10px}.city-story-section-actions{gap:8px;align-items:flex-start;flex-direction:column}.food-page-actions{justify-content:flex-start}.food-page-top{align-items:flex-start}}
