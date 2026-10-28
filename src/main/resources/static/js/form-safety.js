@@ -50,5 +50,5 @@ const formSafety=(()=>{
   if(dirtyDialogs().length){event.preventDefault();event.returnValue='';}
  });
  return {requestClose,allowLeave,hasDirtyDialogs:()=>dirtyDialogs().length>0,
-  isDirty:dirty,markDirty:form=>forced.add(form),capture};
+  isDirty:dirty,markDirty:form=>forced.add(form),markClean:form=>{if(form){baseline.set(form,signature(form));forced.delete(form);}},capture};
 })();

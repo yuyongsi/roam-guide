@@ -16,7 +16,7 @@ public class AdminAudit {
     private final Database db;
     private final Auth auth;
     private static final Pattern PATH=Pattern.compile("^/api/admin/(spots|guides|cities|foods|users|posts|routes|feedback|uploads)(?:/(\\d+))?(?:/(publication|status|reset-password|moderation))?$");
-    static final Map<String,String> ACTIONS=Map.ofEntries(Map.entry("CREATE","新增内容"),Map.entry("EDIT","修改内容"),Map.entry("PUBLICATION","调整发布状态"),Map.entry("USER_STATUS","封禁 / 解封"),Map.entry("RESET_PASSWORD","重置密码"),Map.entry("MODERATION","内容审核"),Map.entry("FEEDBACK","处理反馈"),Map.entry("DELETE_COMMENT","删除评论"),Map.entry("UPLOAD","上传图片"));
+    static final Map<String,String> ACTIONS=Map.ofEntries(Map.entry("CREATE","新增内容"),Map.entry("EDIT","修改内容"),Map.entry("PUBLICATION","调整发布状态"),Map.entry("USER_STATUS","封禁 / 解封"),Map.entry("RESET_PASSWORD","重置密码"),Map.entry("MODERATION","内容审核"),Map.entry("FEEDBACK","处理反馈"),Map.entry("DELETE_COMMENT","删除评论"),Map.entry("UPLOAD","上传图片"),Map.entry("APPROVE_CONTRIBUTION","批准用户投稿"),Map.entry("RETURN_CONTRIBUTION","退回用户投稿"));
     public AdminAudit(Database db,Auth auth){this.db=db;this.auth=auth;}
 
     @Around("within(cn.edu.travel.*Controller) && (@annotation(org.springframework.web.bind.annotation.PostMapping) || @annotation(org.springframework.web.bind.annotation.PutMapping) || @annotation(org.springframework.web.bind.annotation.DeleteMapping))")
