@@ -128,7 +128,7 @@ async function home(){
  (feature?'<article class="guide-feature"><img src="'+esc(feature.image)+'" alt="'+esc(feature.title)+'" loading="lazy"><div class="feature-copy"><div class="card-location">'+icon('pin',14)+esc(feature.city_name)+'</div><h2>'+esc(feature.title)+'</h2><p>'+esc(feature.intro)+'</p><a class="button secondary" href="/guide/'+feature.id+'">阅读这份攻略 '+icon('arrow',17)+'</a></div></article>':'')+'<div style="margin-top:30px">'+grid(guides.items.slice(-3),'guide')+'</div></section>'+foodPreview+homeCommunityIntro()+'</div></div>';
 }
 async function destinations(slug){
- if(!slug)return '<div class="explore-canvas"><div class="container explore-page destinations-index"><div class="page-top"><h1>想去的地方，从这里发现</h1><p>沿着目的地认识景点，也找到具体怎么玩的实用攻略。</p></div><div class="dest-grid">'+state.cities.map(destinationTile).join('')+'</div></div></div>';
+ if(!slug)return destinationExplorerPage();
  const city=state.cities.find(x=>x.slug===slug);if(!city)throw new Error('这个目的地还没有收录');
  const [spots,guides]=await Promise.all([api('/api/search?type=spot&size=24&city='+city.id),api('/api/search?type=guide&size=24&city='+city.id)]);
  return '<div class="explore-canvas"><div class="container explore-page destination-detail">'+crumb([{label:'目的地',url:'/destinations'},{label:city.name}])+'<section class="city-banner"><img src="'+esc(city.image)+'" alt="'+esc(city.name)+'"><div><span class="city-province">'+esc(city.province)+'</span><h1>'+esc(city.name)+'</h1><p>'+esc(city.description)+'</p></div></section>'+cityEssentials(city)+'<section class="city-subsections">'+sectionHeading('值得停留的景点','先认识一个地方，再安排怎样出发。')+(spots.items.length?grid(spots.items,'spot'):empty('景点正在整理','可以先看看其他目的地。','/destinations','探索其他目的地'))+'</section><section class="section">'+sectionHeading('关于这里的攻略','把交通、节奏和游玩安排想在出发前。')+(guides.items.length?grid(guides.items,'guide'):empty('攻略正在整理','新的内容会在这里更新。'))+'</section></div></div>';
@@ -315,6 +315,7 @@ function openEditor(kind,id,overrideItem=null){
 }
 function filterEditorSpots(){const form=$('#contentForm');if(!form)return;const city=form.elements.city_id.value;form.querySelectorAll('[data-spot-city]').forEach(l=>{const ok=l.dataset.spotCity===city;l.hidden=!ok;const input=l.querySelector('input');input.disabled=!ok;if(!ok)input.checked=false;});}
 async function doAction(button){
+ if(await destinationExplorerAction(button))return;
  if(await cityManagementAction(button))return;
  if(await constraintPlannerAction(button))return;
  if(button.hasAttribute('data-theme-toggle')){const mode=window.roamTheme.toggle();toast(mode==='dark'?'已切换到黑夜模式':'已切换到白天模式');return;}
