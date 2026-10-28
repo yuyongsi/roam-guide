@@ -1,32 +1,103 @@
-/* Subtle map paper for the two discovery sections on the home page only. */
+/* Homepage-only map paper and landscape motifs. */
+.home-canvas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 24px 0 54px;
+  color: #163b49;
+  background-color: #f7faf7;
+  background-image: linear-gradient(155deg, transparent 24%, rgba(216, 233, 229, .34) 24.1%, transparent 42%), linear-gradient(25deg, transparent 66%, rgba(241, 229, 205, .28) 66.1%, transparent 82%);
+}
+.home-canvas > * { position: relative; z-index: 1; }
+.home-canvas .home-map-ornament {
+  position: absolute;
+  z-index: 0;
+  inset: 465px 0 auto;
+  height: 940px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.home-map-ornament img { position: absolute; width: min(1200px, 100%); height: auto; left: 50%; transform: translateX(-50%); opacity: .17; }
+.home-canvas .home-hero { margin-top: 0; }
 .home-destinations,
 .home-spots {
   position: relative;
   isolation: isolate;
-  padding: 30px 30px 28px;
   overflow: hidden;
-  border: 1px solid #dce8e6;
-  background-color: #f4f8f7;
-  background-image: repeating-radial-gradient(ellipse at 13% 22%, transparent 0 32px, rgba(92, 145, 145, .075) 33px 34px, transparent 35px 58px);
+  padding: 28px 30px 30px;
+  border: 1px solid #b8d5ce;
 }
-.home-destinations { margin: 60px 0 10px; border-radius: 5px 18px 5px 18px; }
-.home-spots { margin: 56px 0 10px; padding-top: 28px; border-radius: 18px 5px 18px 5px; background-color: #edf4f3; background-position: 76% 84%; }
+.home-destinations {
+  margin: 48px 0 12px;
+  border-radius: 4px 24px 4px 24px;
+  background-color: #d8e9e5;
+  background-image: linear-gradient(125deg, rgba(255,255,255,.2), transparent 55%), url("/assets/home-map-ornament.svg");
+  background-size: auto, 700px auto;
+  background-position: center, right -190px top -265px;
+  background-repeat: no-repeat;
+}
+.home-spots {
+  margin: 48px 0 12px;
+  padding-top: 29px;
+  border-color: #ddc99f;
+  border-radius: 24px 4px 24px 4px;
+  background-color: #f1e5cd;
+  background-image: linear-gradient(135deg, rgba(255,255,255,.25), transparent 54%), url("/assets/home-map-ornament.svg");
+  background-size: auto, 720px auto;
+  background-position: center, right -220px bottom -300px;
+  background-repeat: no-repeat;
+}
 .home-destinations > *, .home-spots > * { position: relative; z-index: 1; }
 .home-destinations .section-heading,
 .home-spots .section-heading { margin-bottom: 23px; }
+.home-destinations .section-heading p,
+.home-spots .section-heading p { color: #405f61; }
+.home-destinations .section-heading .text-link,
+.home-spots .section-heading .text-link { color: #245c5c; }
 .home-destinations .dest-grid { gap: 16px; }
-.home-destinations .destination-tile { border-radius: 7px; box-shadow: 0 5px 16px rgba(22, 59, 73, .12); }
+.home-destinations .destination-tile { border-radius: 7px; box-shadow: 0 7px 19px rgba(22, 59, 73, .2); }
 .home-spots .content-grid { gap: 18px 16px; }
-.home-spots .content-card { overflow: hidden; border: 1px solid #dce7e5; border-radius: 7px; background: #fbfdfc; box-shadow: 0 4px 15px rgba(22, 59, 73, .075); }
+.home-spots .content-card {
+  overflow: hidden;
+  border: 1px solid #e3d9c8;
+  border-radius: 8px;
+  background: #fffefa;
+  box-shadow: 0 6px 18px rgba(71, 59, 38, .15);
+}
 .home-spots .card-info { padding: 13px 15px 15px; }
 .home-spots .card-info p { margin-bottom: 2px; }
 @media (max-width: 720px) {
-  .home-destinations, .home-spots { padding: 20px 16px 18px; margin-top: 38px; border-radius: 4px 12px; }
+  .home-canvas { padding-top: 12px; padding-bottom: 35px; }
+  .home-canvas .home-map-ornament { inset: 420px 0 auto; height: 650px; }
+  .home-map-ornament img { width: 850px; max-width: none; }
+  .home-destinations, .home-spots { padding: 20px 16px 18px; margin-top: 36px; border-radius: 4px 14px; }
   .home-destinations .dest-grid { gap: 11px; }
   .home-spots .content-grid { gap: 14px 10px; }
   .home-spots .card-info { padding: 10px 10px 12px; }
 }
-html[data-theme="dark"] .home-destinations,
-html[data-theme="dark"] .home-spots { border-color: var(--night-line); background-color: var(--night-page); }
-html[data-theme="dark"] .home-destinations .destination-tile { box-shadow: 0 5px 16px rgba(0, 0, 0, .22); }
-html[data-theme="dark"] .home-spots .content-card { border-color: var(--night-line); background: var(--night-surface); box-shadow: 0 4px 15px rgba(0, 0, 0, .2); }
+html[data-theme="dark"] .home-canvas {
+  color: var(--night-text);
+  background-color: var(--night-page);
+  background-image: linear-gradient(155deg, transparent 22%, rgba(44, 76, 78, .25) 22.1%, transparent 43%), linear-gradient(25deg, transparent 65%, rgba(98, 76, 49, .19) 65.1%, transparent 83%);
+}
+html[data-theme="dark"] .home-map-ornament img { opacity: .13; }
+html[data-theme="dark"] .home-destinations {
+  border-color: #426b68;
+  background-color: #243f42;
+  background-image: linear-gradient(125deg, rgba(121, 174, 163, .1), transparent 55%), url("/assets/home-map-ornament.svg");
+}
+html[data-theme="dark"] .home-spots {
+  border-color: #695c43;
+  background-color: #3c3830;
+  background-image: linear-gradient(135deg, rgba(184, 142, 69, .08), transparent 54%), url("/assets/home-map-ornament.svg");
+}
+html[data-theme="dark"] .home-destinations .section-heading p,
+html[data-theme="dark"] .home-spots .section-heading p { color: var(--night-muted); }
+html[data-theme="dark"] .home-destinations .section-heading .text-link,
+html[data-theme="dark"] .home-spots .section-heading .text-link { color: var(--night-accent); }
+html[data-theme="dark"] .home-destinations .destination-tile { box-shadow: 0 7px 19px rgba(0, 0, 0, .35); }
+html[data-theme="dark"] .home-spots .content-card {
+  border-color: var(--night-line);
+  background: var(--night-surface);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .28);
+}
