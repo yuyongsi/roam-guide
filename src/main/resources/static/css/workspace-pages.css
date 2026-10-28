@@ -1,0 +1,247 @@
+/* Shared travel journal surfaces. Screen-only: exported itineraries keep their print layout. */
+@media screen {
+  #main:has(> .journal-page),
+  #main:has(> .me-layout),
+  #main:has(> .admin-layout),
+  #main:has(> .planner-page) {
+    --journal-ink: #163b49;
+    --journal-muted: #546f70;
+    --journal-paper: #fbfdfb;
+    --journal-tint: #e7f0eb;
+    --journal-line: #c9dbd3;
+    --journal-link: #266b65;
+    --journal-sand: #f2e6cd;
+    position: relative;
+    isolation: isolate;
+    min-height: 68vh;
+    padding-bottom: 44px;
+    color: var(--journal-ink);
+    background: linear-gradient(125deg, #edf5f0, #f8faf6 55%, #f7f1e5);
+  }
+  #main:has(> .journal-page)::before,
+  #main:has(> .me-layout)::before,
+  #main:has(> .admin-layout)::before,
+  #main:has(> .planner-page)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: url('/assets/home-map-ornament.svg') right -120px bottom -150px / 850px auto no-repeat;
+    opacity: .13;
+  }
+  .journal-page { min-width: 0; padding-top: 24px; }
+  .journal-page > :is(.page-top, .social-page-heading) {
+    margin: 0 0 20px;
+    padding: 23px 27px;
+    border: 1px solid var(--journal-line);
+    border-left: 4px solid #3a6d66;
+    background: var(--journal-tint);
+  }
+  .journal-page > :is(.page-top, .social-page-heading) h1 { font-size: 38px; line-height: 1.4; margin: 0 0 8px; }
+  .journal-page > :is(.page-top, .social-page-heading) p { max-width: 850px; margin: 0; font-size: 16px; line-height: 1.8; color: var(--journal-muted); }
+  .journal-page > .page-top > .text-link { display: inline-block; margin-top: 12px; font-size: 14px; color: var(--journal-link); }
+  .journal-page :is(.social-filters, .cp-basic-fields) {
+    margin: 18px 0;
+    padding: 17px;
+    border: 1px solid var(--journal-line);
+    border-radius: 8px;
+    background: var(--journal-tint);
+  }
+  .journal-page .social-filters :is(input, select) { min-height: 45px; font-size: 15px; background: var(--journal-paper); }
+  .journal-page .social-filters .text-link { font-size: 14px; }
+  .journal-page .social-filters .button { min-height: 43px; font-size: 15px; }
+  .journal-page :is(.social-results-caption, .route-page-caption) {
+    margin: 16px 0;
+    padding: 11px 16px;
+    border-left: 3px solid #b68e45;
+    background: var(--journal-sand);
+    color: var(--journal-muted);
+    font-size: 14px;
+  }
+  .journal-page .pagination { margin: 25px 0 0; }
+  .journal-page :is(a, button, input, select, textarea):focus-visible,
+  .me-layout:not(.trips-page) :is(a, button, input, select, textarea):focus-visible {
+    outline: 3px solid #b68e45;
+    outline-offset: 3px;
+  }
+
+  /* Community: text posts carry the same weight as photo posts. */
+  .social-page .social-intro { margin: 0 0 18px; padding: 13px 19px; border-color: #90b6a7; background: var(--journal-paper); }
+  .social-page .social-intro p { font-size: 15px; line-height: 1.8; color: var(--journal-muted); }
+  .social-page .social-intro .text-link { font-size: 14px; }
+  .social-page .social-feed { gap: 22px; align-items: start; }
+  .social-page .social-card { padding: 21px; border: 1px solid var(--journal-line); border-radius: 5px 16px 5px 16px; background: var(--journal-paper); box-shadow: 0 4px 14px #163b4908; }
+  .social-page .social-card-photo { margin: -21px -21px 19px; border-radius: 5px 16px 0 0; aspect-ratio: 2 / 1; }
+  .social-page .social-card h2 { font-size: 25px; margin: 10px 0 12px; }
+  .social-page .social-card-excerpt { font-size: 15px; line-height: 1.85; color: var(--journal-muted); }
+  .social-page .social-card-meta { font-size: 13px; color: var(--journal-link); }
+  .social-page .social-card-footer { font-size: 13px; line-height: 1.8; color: var(--journal-muted); margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--journal-line); }
+  .social-page .social-empty { padding: 32px; border: 1px solid var(--journal-line); background: var(--journal-paper); }
+
+  /* Public routes: full cards and a day-by-day reading surface. */
+  .route-page > p.small-text { padding: 11px 16px; margin: 16px 0; border-left: 3px solid #b68e45; background: var(--journal-sand); color: var(--journal-muted); font-size: 14px; }
+  .route-page .exp-route-grid { gap: 22px; align-items: start; }
+  .route-page .exp-route-card { padding: 0; margin: 0; border: 1px solid var(--journal-line); border-radius: 5px 16px 5px 16px; overflow: hidden; background: var(--journal-paper); box-shadow: 0 4px 14px #163b4908; }
+  .route-page .exp-route-photo { height: auto; aspect-ratio: 2.2 / 1; margin: 0; border-radius: 0; }
+  .route-page .exp-route-card > div { padding: 20px 22px; }
+  .route-page .exp-route-card h2 { font-size: 25px; margin: 8px 0 12px; line-height: 1.5; }
+  .route-page .exp-route-card p { font-size: 15px; line-height: 1.85; color: var(--journal-muted); margin-bottom: 0; }
+  .route-page .exp-route-card .card-location { font-size: 13px; color: var(--journal-link); margin-top: 0; }
+  .exp-route-detail { max-width: 1224px; }
+  .exp-route-detail > .planner-heading { display: block; padding: 24px 27px; margin: 18px 0; border: 1px solid var(--journal-line); border-left: 4px solid #3a6d66; background: var(--journal-tint); }
+  .exp-route-detail > .planner-heading h1 { margin: 6px 0 12px; font-size: 34px; line-height: 1.5; }
+  .exp-route-detail > .planner-heading p { font-size: 16px; max-width: 850px; line-height: 1.85; color: var(--journal-muted); }
+  .exp-route-detail > .planner-heading .card-location { font-size: 14px; }
+  .exp-route-detail > .planner-heading .button-row { margin-top: 18px; gap: 12px; }
+  .exp-route-detail > .small-text { font-size: 14px; color: var(--journal-muted); }
+  .exp-route-detail > .exp-route-day { padding: 23px; margin-top: 16px; border: 1px solid var(--journal-line); border-radius: 7px; background: var(--journal-paper); gap: 20px; }
+  .exp-route-detail > .exp-route-day > div:last-child { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-content: start; }
+  .exp-route-detail .exp-route-stop { padding: 0; min-width: 0; gap: 14px; }
+  .exp-route-detail .exp-route-thumb { width: 145px; height: 110px; }
+  .exp-route-detail .exp-route-stop > div { min-width: 0; }
+  .exp-route-detail .exp-route-stop > div > a { font-size: 21px; overflow-wrap: anywhere; color: var(--journal-ink); }
+  .exp-route-detail :is(.card-location, .small-text) { font-size: 13px; line-height: 1.8; }
+
+  /* Recommendation and constraint tools share readable control sizes. */
+  .recommend-page #recommendChoices > .notice { font-size: 15px; line-height: 1.85; background: var(--journal-tint); border-color: var(--journal-line); color: var(--journal-muted); }
+  .recommend-page #recommendChoices > .small-text { font-size: 14px; line-height: 1.8; color: var(--journal-muted); }
+  .recommend-page .rec-adjust-toolbar { margin: 18px 0 12px; }
+  .recommend-page .rec-adjust-toolbar > p { font-size: 14px; color: var(--journal-muted); }
+  .recommend-page .exp-recommend-list { margin: 16px 0; gap: 14px; }
+  .recommend-page .exp-recommend-item { padding: 19px; gap: 22px; border: 1px solid var(--journal-line); border-radius: 7px; background: var(--journal-paper); }
+  .recommend-page .exp-recommend-item > img { width: 210px; height: 150px; }
+  .recommend-page .exp-recommend-item h2 { font-size: 27px; }
+  .recommend-page .exp-recommend-item p { font-size: 15px; color: var(--journal-muted); }
+  .recommend-page .exp-recommend-item > label { font-size: 14px; color: var(--journal-link); }
+  .recommend-page .rec-stop-actions .text-button { font-size: 14px; }
+  .recommend-page .rec-locked { border-left: 4px solid #3a6d66; padding-left: 16px; }
+  .constraint-page { max-width: 1280px; }
+  .constraint-page .cp-method-note { margin: 16px 0 22px; padding: 14px 19px; font-size: 14px; line-height: 1.9; color: var(--journal-muted); border-color: #90b6a7; background: var(--journal-paper); }
+  .constraint-page .cp-section-heading { margin: 20px 0 15px; }
+  .constraint-page .cp-section-heading :is(p, span) { font-size: 14px; color: var(--journal-muted); }
+  .constraint-page .cp-basic-fields { gap: 18px; }
+  .constraint-page :is(.cp-basic-fields label, .cp-window label, .cp-batch label, .cp-candidate-controls > label) { font-size: 14px; color: var(--journal-muted); }
+  .constraint-page .cp-form :is(input[type=number], input[type=time], select) { font-size: 15px; min-height: 43px; background: var(--journal-paper); }
+  .constraint-page .cp-windows { margin-top: 14px; }
+  .constraint-page .cp-window { padding: 15px; background: var(--journal-paper); border: 1px solid var(--journal-line); border-radius: 6px; grid-template-columns: 65px 1fr 14px 1fr; gap: 10px; }
+  .constraint-page .cp-conditions { margin-bottom: 23px; }
+  .constraint-page .cp-candidate { grid-template-columns: 100px minmax(135px, 1fr) minmax(540px, 1.9fr); gap: 18px; padding: 19px; margin-bottom: 12px; border: 1px solid var(--journal-line); border-radius: 7px; background: var(--journal-paper); }
+  .constraint-page .cp-candidate > :is(img, .cp-no-photo) { width: 100px; height: 96px; }
+  .constraint-page .cp-candidate-copy > p { font-size: 13px; color: var(--journal-muted); }
+  .constraint-page .cp-source { font-size: 12px; color: var(--journal-muted); }
+  .constraint-page .cp-candidate-controls { grid-column: auto; grid-template-columns: 76px minmax(100px, 1fr) 90px 110px 110px; gap: 10px; }
+  .constraint-page .cp-required input { flex: 0 0 16px; width: 16px; height: 16px; margin: 0; }
+  .constraint-page .cp-batch .text-button { font-size: 14px; }
+  .constraint-page :is(.cp-generate p, .cp-result-empty p, .cp-results-heading p, .cp-plan-explanations p, .cp-result-stop p, .cp-conflict article p) { font-size: 15px; color: var(--journal-muted); }
+  .constraint-page :is(.cp-result-empty, .cp-plan-explanations, .cp-result-day-heading, .cp-plan-option) { border-color: var(--journal-line); background: var(--journal-paper); }
+  .constraint-page :is(.cp-plan-option span, .cp-search-note, .cp-time-sum, .cp-result-stop small, .cp-result-day-heading span) { font-size: 13px; color: var(--journal-muted); }
+  .constraint-page .cp-plan-option.active { border-color: var(--journal-link); background: var(--journal-tint); }
+
+  /* A sheet for posts, rather than a wide blank reading canvas. */
+  .social-detail { max-width: 1000px; padding: 25px 40px 32px; border: 1px solid var(--journal-line); background: var(--journal-paper); border-top: 4px solid #3a6d66; }
+  #main:has(> .social-detail) { padding-top: 24px; }
+  .social-detail .social-article-heading { margin: 20px 0 25px; }
+  .social-detail .social-article-heading h1 { font-size: 36px; margin: 14px 0 21px; }
+  .social-detail .social-article-body { max-width: 850px; font-size: 17px; line-height: 2; color: var(--journal-ink); }
+  .social-detail :is(.social-author > div, .social-card-meta) { font-size: 14px; }
+  .social-detail .social-author > div > span { font-size: 13px; color: var(--journal-muted); }
+  .social-detail .social-interaction { margin: 23px 0; padding: 19px 0; }
+  .social-detail :is(.small-text, .comment-login) { font-size: 14px; }
+
+  /* Account pages: compact useful empty states and a clear main panel. */
+  .me-layout:not(.trips-page) { padding-top: 26px; gap: 25px; align-items: start; }
+  .me-layout:not(.trips-page) .me-main { min-width: 0; padding: 23px; border: 1px solid var(--journal-line); border-top: 3px solid #3a6d66; background: var(--journal-paper); border-radius: 4px; }
+  .me-layout:not(.trips-page) .me-main > h1 { font-size: 32px; }
+  .me-layout:not(.trips-page) .me-main > :is(p, .planner-heading p) { font-size: 15px; line-height: 1.8; color: var(--journal-muted); }
+  .me-layout:not(.trips-page) .me-main > .planner-heading { margin: 0 0 20px; padding-bottom: 17px; border-bottom: 1px solid var(--journal-line); }
+  .me-layout:not(.trips-page) .me-main > .planner-heading h1 { font-size: 32px; }
+  .me-layout:not(.trips-page) .empty,
+  .account-entry > .empty { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px 17px; align-items: center; padding: 25px; text-align: left; border: 1px solid var(--journal-line); border-left: 4px solid #b68e45; background: var(--journal-tint); border-radius: 5px; }
+  .me-layout:not(.trips-page) .empty > svg,
+  .account-entry > .empty > svg { grid-column: 1; grid-row: 1 / span 3; margin: 0; color: var(--journal-link); opacity: .85; }
+  .me-layout:not(.trips-page) .empty > :is(h2, h3, p, a, button),
+  .account-entry > .empty > :is(h2, h3, p, a, button) { grid-column: 2; margin: 0; justify-self: start; }
+  .me-layout:not(.trips-page) .empty :is(h2, h3),
+  .account-entry > .empty :is(h2, h3) { font-size: 23px; line-height: 1.5; color: var(--journal-ink); }
+  .me-layout:not(.trips-page) .empty p,
+  .account-entry > .empty p { font-size: 15px; line-height: 1.85; color: var(--journal-muted); }
+  .me-layout:not(.trips-page) .empty .button,
+  .account-entry > .empty .button { margin-top: 7px; font-size: 14px; }
+  .account-entry { min-height: 420px; }
+  .me-layout:not(.trips-page) :is(.my-comment, .exp-notification, .exp-memory, .feedback-record) { padding: 20px; margin-top: 15px; background: var(--journal-tint); border: 1px solid var(--journal-line); border-radius: 6px; }
+  .me-layout:not(.trips-page) :is(.feedback-copy, .exp-notification p, .exp-memory-note) { font-size: 15px; line-height: 1.9; color: var(--journal-muted); }
+  .me-layout:not(.trips-page) .feedback-compose { max-width: none; padding: 20px; border: 1px solid var(--journal-line); background: var(--journal-tint); margin-top: 18px; }
+  .me-layout:not(.trips-page) :is(.form-stack, .form-help, .tabs) { font-size: 14px; }
+  .me-layout:not(.trips-page) .form-stack :is(input, select, textarea) { font-size: 15px; line-height: 1.6; }
+
+  /* Admin tables stay functional and dense, with the same readable hierarchy. */
+  .admin-layout { padding-top: 26px; gap: 25px; align-items: start; }
+  .admin-layout .admin-main { padding: 23px; border: 1px solid var(--journal-line); border-top: 3px solid #3a6d66; border-radius: 4px; background: var(--journal-paper); }
+  .admin-layout .admin-main > h1 { font-size: 32px; }
+  .admin-layout .admin-main > :is(p, .small-text),
+  .admin-layout .dashboard-section > p { font-size: 14px; line-height: 1.85; color: var(--journal-muted); }
+  .admin-layout .overview-stats { gap: 14px; margin: 24px 0 17px; }
+  .admin-layout .overview-stats > a { padding: 16px; border: 1px solid var(--journal-line); border-top: 3px solid #79a69a; border-radius: 5px; background: var(--journal-tint); color: var(--journal-muted); font-size: 14px; }
+  .admin-layout .overview-stats strong { color: var(--journal-ink); font-size: 36px; margin-top: 9px; }
+  .admin-layout .table-wrap { background: var(--journal-paper); }
+  .admin-layout :is(td, th) { font-size: 14px; }
+  .admin-layout :is(.table-date, .status-badge, .table-intro) { font-size: 12px; }
+  .admin-layout .table-actions button { font-size: 13px; }
+  .admin-layout :is(.admin-search input, .admin-search select, .feedback-filters input, .feedback-filters select) { font-size: 15px; }
+
+  /* The private planner retains its controls, with a readable page surface. */
+  .planner-page { padding-top: 24px; }
+  .planner-page > .planner-heading { margin-top: 18px; padding: 23px; border: 1px solid var(--journal-line); border-left: 4px solid #3a6d66; background: var(--journal-tint); }
+  .planner-page > .planner-heading h1 { font-size: 34px; }
+  .planner-page > .planner-heading .button-row { max-width: 330px; justify-content: flex-end; }
+  .planner-page .planner-notice { font-size: 14px; color: var(--journal-muted); }
+  .planner-page .planner-day { padding: 20px 23px; margin: 16px 0; border: 1px solid var(--journal-line); border-left: 3px solid #79a69a; border-radius: 6px; background: var(--journal-paper); }
+  .planner-page .planner-day::before { content: none; }
+  .planner-page .stop-note { font-size: 15px; color: var(--journal-muted); }
+  .planner-page :is(.stop-actions button, .planner-day .small-text, .planner-day .text-button) { font-size: 14px; }
+  .planner-page :is(.cp-trip-review p, .cp-section-heading p, .planner-depth-toolbar p, .budget-heading p, .budget-notes, .budget-footnote, .meal-notes, .meal-empty) { font-size: 14px; line-height: 1.85; }
+  .planner-page :is(.cp-saved-summary span, .planner-time-summary span, .planner-stop-time span, .budget-totals span, .budget-totals small, .meal-copy .card-location) { font-size: 13px; line-height: 1.8; }
+
+  @media (max-width: 1200px) {
+    .exp-route-detail .exp-route-thumb { width: 110px; height: 100px; }
+  }
+  @media (max-width: 1000px) {
+    .exp-route-detail > .exp-route-day > div:last-child { grid-template-columns: 1fr; }
+    .constraint-page .cp-candidate { grid-template-columns: 100px minmax(0, 1fr); }
+    .constraint-page .cp-candidate > img { grid-row: 1 / span 2; height: 150px; }
+    .constraint-page .cp-candidate-controls { grid-column: 2; }
+    .planner-page > .planner-heading { display: block; }
+    .planner-page > .planner-heading .button-row { max-width: none; justify-content: flex-start; margin-top: 18px; }
+  }
+  @media (max-width: 720px) {
+    .journal-page > :is(.page-top, .social-page-heading) { padding: 20px; }
+    .journal-page > :is(.page-top, .social-page-heading) h1 { font-size: 29px; }
+    .social-detail { padding: 20px; }
+    .social-detail .social-article-heading h1 { font-size: 29px; }
+    .social-page .social-card { padding: 17px; }
+    .social-page .social-card-photo { margin: -17px -17px 17px; }
+    .recommend-page .exp-recommend-item { flex-wrap: wrap; padding: 15px; gap: 15px; }
+    .recommend-page .exp-recommend-item > img { width: 100px; height: 100px; }
+    .recommend-page .exp-recommend-item h2 { font-size: 22px; }
+    .constraint-page .cp-windows { grid-template-columns: 1fr; }
+    .constraint-page .cp-basic-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .constraint-page .cp-candidate-controls { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .constraint-page .cp-section-heading { flex-wrap: wrap; }
+    .me-layout:not(.trips-page) .me-main { padding: 18px; }
+  }
+  html[data-theme="dark"] #main:has(> :is(.journal-page, .me-layout, .planner-page, .admin-layout)) {
+    --journal-ink: var(--night-text);
+    --journal-muted: var(--night-muted);
+    --journal-paper: var(--night-surface);
+    --journal-tint: #1b333c;
+    --journal-line: var(--night-line);
+    --journal-link: var(--night-accent);
+    --journal-sand: var(--night-warm-surface);
+    background: linear-gradient(125deg, #142b32, var(--night-page) 55%, #282a26);
+  }
+  html[data-theme="dark"] .journal-page :is(.page-top, .social-page-heading, .planner-heading, .cp-window, .cp-plan-option, .cp-result-empty, .cp-plan-explanations) { background: var(--journal-tint); border-color: var(--journal-line); }
+  html[data-theme="dark"] .journal-page :is(h1, h2, h3, .cp-window strong) { color: var(--journal-ink); }
+  html[data-theme="dark"] .social-page .social-card-photo { background: var(--night-soft); }
+  html[data-theme="dark"] .admin-layout .status-badge:not(.off) { color: #c4ead3; background: #26483f; }
+}
