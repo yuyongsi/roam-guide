@@ -1,0 +1,395 @@
+/* Destination, guide, search and food surfaces. Scoped to their explicit page wrappers. */
+.explore-canvas {
+  min-height: 65vh;
+  padding: 20px 0 58px;
+  color: #163b49;
+  background-color: #f7faf7;
+  background-image: linear-gradient(135deg, rgba(216, 233, 229, .2), transparent 35%), linear-gradient(315deg, rgba(241, 229, 205, .2), transparent 32%);
+}
+.explore-page { min-width: 0; }
+.explore-page .breadcrumb { margin: 18px 0 22px; }
+.explore-page .page-top,
+.explore-page .food-page-top {
+  position: relative;
+  margin: 4px 0 25px;
+  padding: 25px 29px;
+  border: 1px solid #c8dcd5;
+  border-left: 5px solid #3a6d66;
+  background: #e8f1ed;
+}
+.explore-page .page-top h1,
+.explore-page .food-page-top h1 { margin-bottom: 8px; line-height: 1.4; overflow-wrap: anywhere; }
+.explore-page .page-top p,
+.explore-page .food-page-top p { max-width: 720px; margin: 0; color: #506d66; font-size: 14px; line-height: 1.9; }
+.explore-page .section-heading { margin: 0 0 22px; }
+.explore-page .section-heading h2 { font-size: 27px; }
+.explore-page .section-heading p { color: #667e79; }
+
+/* Destination index keeps the established one-large/four-small photo mosaic. */
+.destinations-index .page-top { margin-bottom: 17px; }
+.destinations-index .dest-grid {
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #b8d5ce;
+  background: #d8e9e5;
+  box-shadow: 0 8px 22px rgba(22, 59, 73, .08);
+}
+.destinations-index .destination-tile { border-radius: 4px 13px 4px 13px; }
+.destinations-index .destination-tile:first-child { min-height: 478px; }
+.destinations-index .destination-tile:not(:first-child) { min-height: 232px; }
+.destinations-index .destination-tile:focus-visible { outline: 3px solid #b68e45; outline-offset: 3px; }
+
+/* City page: a clear image banner, practical notes, then two content bands. */
+.destination-detail .city-banner {
+  min-height: 330px;
+  margin-bottom: 24px;
+  border: 1px solid #c7d9d4;
+  border-radius: 4px 20px 4px 20px;
+  box-shadow: 0 9px 24px rgba(22, 59, 73, .15);
+}
+.destination-detail .city-essentials { gap: 14px; padding: 9px 0 10px; }
+.destination-detail .city-essentials article {
+  min-width: 0;
+  padding: 17px 19px 14px;
+  border: 1px solid #d2e1dc;
+  border-top: 3px solid #3a6d66;
+  background: #fbfdfb;
+}
+.destination-detail .city-essentials h2 { color: #163b49; font-size: 20px; }
+.destination-detail .city-essentials p { color: #566f69; line-height: 1.9; }
+.destination-detail > .muted { margin: 0 0 27px; padding-left: 4px; }
+.destination-detail .city-subsections {
+  margin: 23px 0 10px;
+  padding: 24px 25px 27px;
+  border: 1px solid #c5dcd4;
+  background: #e5efeb;
+}
+.destination-detail .city-subsections .content-grid,
+.destination-detail > .section .content-grid { gap: 19px 16px; }
+.destination-detail .city-subsections .content-card,
+.destination-detail > .section .content-card {
+  overflow: hidden;
+  border: 1px solid #d4e1dc;
+  border-radius: 5px 13px 5px 13px;
+  background: #fbfdfb;
+  box-shadow: 0 5px 15px rgba(22, 59, 73, .08);
+}
+.destination-detail .city-subsections .card-info,
+.destination-detail > .section .card-info { padding: 13px 15px 15px; }
+.destination-detail > .section { padding-top: 43px; }
+
+/* Guide and search listings. Query searches retain their existing horizontal excerpt rows. */
+.guides-index .search-filters,
+.search-index .search-filters {
+  padding: 17px;
+  border: 1px solid #c8dcd5;
+  border-radius: 4px 14px 4px 14px;
+  background: #e8f1ed;
+  gap: 10px;
+}
+.explore-page .search-filters input,
+.explore-page .search-filters select { border-color: #c7d8d3; background: #fbfdfb; }
+.explore-page .search-filters input:focus-visible,
+.explore-page .search-filters select:focus-visible { outline: 3px solid #b68e45; outline-offset: 1px; }
+.explore-page .search-help { margin: 11px 0 24px; color: #526c66; line-height: 1.9; }
+.explore-page .tabs { border-color: #c6d7d2; }
+.explore-page .tabs a.active::after { background: #3a6d66; }
+.explore-page .result-caption {
+  margin: 21px 0 17px;
+  padding: 13px 16px;
+  border-left: 3px solid #b68e45;
+  background: #f1e5cd;
+  color: #52645f;
+}
+.guides-index .content-grid,
+.search-index .content-grid { gap: 20px 16px; }
+.guides-index .content-grid .content-card,
+.search-index .content-grid .content-card {
+  overflow: hidden;
+  border: 1px solid #d5e2dd;
+  border-radius: 5px 13px 5px 13px;
+  background: #fbfdfb;
+  box-shadow: 0 5px 15px rgba(22, 59, 73, .075);
+}
+.guides-index .content-grid .card-info,
+.search-index .content-grid .card-info { padding: 13px 15px 15px; }
+.search-index .search-result-list { padding-top: 5px; border-top: 1px solid #d4e1dc; }
+.search-index .search-result-list .content-card { border-bottom-color: #cbdad5; }
+.search-index .search-result-list .card-photo { border: 1px solid #d3e0dc; }
+.explore-page .pagination { margin: 31px 0 12px; }
+.explore-page .pagination a { border-color: #c8d8d3; background: #fbfdfb; }
+.explore-page .pagination a:hover,
+.explore-page .pagination a:focus-visible { border-color: #3a6d66; outline-color: #b68e45; }
+.explore-page .pagination a.active { border-color: #163b49; background: #163b49; color: #fff; }
+
+/* Reading surfaces hold the article as one calm sheet, without boxing paragraphs. */
+.reading-page .detail-hero,
+.reading-page .spot-gallery .gallery-main {
+  display: block;
+  overflow: hidden;
+  border: 1px solid #c7d9d4;
+  border-radius: 4px 20px 4px 20px;
+  box-shadow: 0 9px 24px rgba(22, 59, 73, .14);
+}
+.reading-page .spot-gallery { margin: 4px 0 25px; }
+.reading-page .spot-gallery .gallery-main { width: 100%; }
+.reading-page .spot-gallery .detail-hero { border: 0; border-radius: 0; box-shadow: none; }
+.reading-page .gallery-thumbs { margin-top: 11px; gap: 10px; }
+.reading-page .gallery-thumbs button { border: 1px solid #c7d9d4; border-radius: 4px; overflow: hidden; }
+.reading-page .detail-heading {
+  align-items: center;
+  gap: 20px 30px;
+  margin: 24px 0 21px;
+  padding: 20px 23px;
+  border: 1px solid #d0dfda;
+  border-left: 4px solid #3a6d66;
+  background: #e8f1ed;
+}
+.reading-page .detail-heading > div:first-child { min-width: 0; }
+.reading-page .detail-heading h1 { line-height: 1.38; overflow-wrap: anywhere; }
+.reading-page .detail-heading p { color: #526c66; line-height: 1.9; }
+.reading-page .detail-actions { justify-content: flex-end; gap: 9px; flex-wrap: wrap; }
+.reading-page .detail-actions .button,
+.food-detail-page .food-detail-actions .button { white-space: normal; }
+.reading-page .detail-actions .button:focus-visible,
+.food-detail-page .food-detail-actions .button:focus-visible { outline: 3px solid #b68e45; outline-offset: 2px; }
+.reading-page .detail-layout,
+.food-detail-page .food-detail-body {
+  align-items: start;
+  gap: 25px;
+  margin: 21px 0 42px;
+}
+.reading-page .article,
+.food-detail-page .article {
+  min-width: 0;
+  padding: 33px 37px 38px;
+  border: 1px solid #d6e2dd;
+  background: #fffefa;
+  color: #294b54;
+  font-size: 15px;
+  line-height: 2.05;
+}
+.reading-page .article h2,
+.food-detail-page .article h2 { margin-top: 32px; color: #163b49; line-height: 1.5; }
+.reading-page .article > section:first-child h2,
+.food-detail-page .article > section:first-child h2 { margin-top: 0; }
+.reading-page .article p,
+.food-detail-page .article p { overflow-wrap: anywhere; }
+.reading-page .article .article-intro { color: #3a6d66; font-size: 17px; line-height: 2.05; }
+.reading-page .article-sidebar,
+.food-detail-page .food-reading-side {
+  padding: 20px 19px;
+  border: 1px solid #c8dcd5;
+  border-top: 3px solid #3a6d66;
+  background: #e8f1ed;
+}
+.reading-page .article-sidebar { position: sticky; top: 24px; }
+.food-detail-page .food-reading-side { position: static; }
+.reading-page .article-sidebar h3,
+.food-detail-page .food-reading-side h2 { color: #163b49; font-size: 20px; }
+.reading-page .article-sidebar a,
+.food-detail-page .food-reading-side a { display: block; padding: 9px 0; border-bottom: 1px solid #cfddd8; color: #315f59; line-height: 1.6; }
+.reading-page .article-sidebar a:last-child,
+.food-detail-page .food-reading-side a:last-child { border-bottom: 0; }
+.reading-page .article-sidebar a:hover,
+.food-detail-page .food-reading-side a:hover { color: #163b49; text-decoration: underline; text-underline-offset: 3px; }
+.reading-page .article-sidebar a:focus-visible,
+.food-detail-page .food-reading-side a:focus-visible { outline: 2px solid #b68e45; outline-offset: 2px; }
+.reading-page .source-note { margin-top: 30px; padding-top: 17px; border-top: 1px solid #d5e2dd; }
+.reading-page .related-section,
+.reading-page .comments-section { margin-top: 34px; padding-top: 22px; border-top: 1px solid #d6e2dd; }
+.reading-page .related-section h2,
+.reading-page .comments-section h2 { margin-top: 0; }
+.reading-page .mini-related { border: 1px solid #d6e2dd; background: #f7faf7; }
+.reading-page .comment { border-bottom-color: #d6e2dd; }
+
+/* Food cards share the travel paper palette while retaining text-only artwork. */
+.food-index .food-page-top { align-items: center; }
+.food-index .food-page-top > .text-link { flex-shrink: 0; white-space: normal; }
+.food-index .food-filters {
+  gap: 10px;
+  padding: 17px;
+  border: 1px solid #c8dcd5;
+  border-radius: 4px 14px 4px 14px;
+  background: #e8f1ed;
+}
+.food-index .food-filters input,
+.food-index .food-filters select { border-color: #c7d8d3; background: #fbfdfb; }
+.food-index .food-filters input:focus-visible,
+.food-index .food-filters select:focus-visible { outline: 3px solid #b68e45; outline-offset: 1px; }
+.food-index .result-caption { margin-top: 20px; }
+.food-index .food-grid { gap: 20px 17px; }
+.food-index .food-card {
+  overflow: hidden;
+  border: 1px solid #d5e2dd;
+  border-radius: 5px 14px 5px 14px;
+  background: #fbfdfb;
+  box-shadow: 0 5px 15px rgba(22, 59, 73, .08);
+}
+.food-index .food-card-photo { border-radius: 0; }
+.food-index .food-card-copy { padding: 13px 15px 16px; }
+.food-index .food-card h2 { font-family: "Microsoft YaHei", sans-serif; font-size: 20px; font-weight: 600; line-height: 1.5; }
+.food-index .food-card-copy > p { color: #566f69; }
+.food-index .food-no-photo { border: 0; background: #e4efeb; }
+.food-index .food-no-photo > span { max-width: 100%; overflow-wrap: anywhere; }
+.food-index .pagination { margin-top: 30px; }
+
+.food-detail-page .food-detail-intro {
+  gap: 30px;
+  margin: 6px 0 28px;
+  padding: 19px;
+  border: 1px solid #c8dcd5;
+  background: #e8f1ed;
+}
+.food-detail-page .food-detail-photo { border: 1px solid #c7d9d4; border-radius: 4px 15px 4px 15px; }
+.food-detail-page .food-detail-heading { min-width: 0; padding: 8px 9px; }
+.food-detail-page .food-detail-heading h1 { overflow-wrap: anywhere; line-height: 1.38; }
+.food-detail-page .food-detail-heading > p { color: #526c66; line-height: 1.95; }
+.food-detail-page .food-detail-actions { gap: 10px; flex-wrap: wrap; }
+.food-detail-page .food-detail-intro.food-without-photo { display: block; max-width: none; padding: 22px 25px 26px; border: 1px solid #c8dcd5; border-left: 4px solid #3a6d66; background: #e8f1ed; }
+.food-detail-page .food-photo-note { color: #526c66; }
+.food-detail-page .food-reading-side { margin-top: 0; }
+
+@media (max-width: 1000px) {
+  .destination-detail .city-banner { min-height: 290px; }
+  .destination-detail .city-essentials { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reading-page .detail-heading { align-items: flex-start; }
+  .reading-page .detail-actions { justify-content: flex-start; }
+  .reading-page .detail-layout { grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; }
+  .food-detail-page .food-detail-intro { gap: 19px; }
+  .food-detail-page .food-detail-body { grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; }
+}
+@media (max-width: 720px) {
+  .explore-canvas { padding: 12px 0 36px; }
+  .explore-page .page-top,
+  .explore-page .food-page-top { padding: 19px 17px; margin-bottom: 19px; }
+  .explore-page .page-top h1,
+  .explore-page .food-page-top h1 { font-size: 31px; }
+  .explore-page .page-top p,
+  .explore-page .food-page-top p { font-size: 12px; }
+  .destinations-index .dest-grid { gap: 10px; padding: 10px; }
+  .destinations-index .destination-tile:first-child { min-height: 245px; }
+  .destinations-index .destination-tile:not(:first-child) { min-height: 160px; }
+  .destination-detail .city-banner { min-height: 280px; margin-bottom: 14px; }
+  .destination-detail .city-essentials { grid-template-columns: 1fr; gap: 10px; }
+  .destination-detail .city-essentials article { padding: 14px 16px 10px; }
+  .destination-detail .city-subsections { margin-top: 20px; padding: 18px 14px 20px; }
+  .destination-detail .city-subsections .content-grid,
+  .destination-detail > .section .content-grid { gap: 14px 10px; }
+  .destination-detail > .section { padding-top: 30px; }
+  .explore-page .search-filters,
+  .food-index .food-filters { padding: 12px; gap: 8px; }
+  .explore-page .search-filters input,
+  .food-index .food-filters input { flex-basis: 100%; width: 100%; }
+  .explore-page .search-filters select,
+  .food-index .food-filters select { flex: 1; min-width: 0; max-width: none; }
+  .explore-page .result-caption { align-items: flex-start; flex-direction: column; gap: 5px; padding: 10px 12px; font-size: 12px; }
+  .search-index .search-result-list .content-card { grid-template-columns: 120px minmax(0, 1fr); gap: 13px; }
+  .search-index .search-result-list .card-info h3 { font-size: 16px; }
+  .search-index .search-result-list .card-info p.search-excerpt { font-size: 12px; min-height: 0; }
+  .guides-index .content-grid,
+  .search-index .content-grid { gap: 15px 10px; }
+  .guides-index .content-grid .card-info,
+  .search-index .content-grid .card-info { padding: 10px 10px 12px; }
+  .reading-page .detail-hero { border-radius: 4px 14px; }
+  .reading-page .detail-heading { display: block; padding: 17px 16px; margin: 17px 0; }
+  .reading-page .detail-actions { margin-top: 15px; }
+  .reading-page .detail-layout,
+  .food-detail-page .food-detail-body { display: block; margin-top: 16px; }
+  .reading-page .article,
+  .food-detail-page .article { padding: 23px 19px 26px; font-size: 14px; line-height: 2; }
+  .reading-page .article .article-intro { font-size: 15px; }
+  .reading-page .article-sidebar { margin-top: 18px; }
+  .food-detail-page .food-detail-intro { display: block; margin: 6px 0 20px; padding: 12px; }
+  .food-detail-page .food-detail-photo { margin-bottom: 15px; }
+  .food-detail-page .food-detail-heading { padding: 8px 5px; }
+  .food-detail-page .food-detail-heading h1 { font-size: 31px; }
+  .food-detail-page .food-without-photo { padding: 17px 15px 20px; }
+  .food-detail-page .food-reading-side { margin-top: 18px; }
+  .food-index .food-page-top { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .food-index .food-grid { gap: 17px 10px; }
+  .food-index .food-card-copy { padding: 10px 10px 13px; }
+  .food-index .food-card h2 { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .explore-page .destination-tile img,
+  .explore-page .content-card img,
+  .food-index .food-card img { transition: none; }
+}
+html[data-theme="dark"] .explore-canvas { color: var(--night-text); background-color: var(--night-page); background-image: linear-gradient(135deg, rgba(44, 76, 78, .22), transparent 38%), linear-gradient(315deg, rgba(98, 76, 49, .15), transparent 32%); }
+html[data-theme="dark"] .explore-page .page-top,
+html[data-theme="dark"] .explore-page .food-page-top,
+html[data-theme="dark"] .destination-detail .city-subsections,
+html[data-theme="dark"] .destination-detail .city-essentials article,
+html[data-theme="dark"] .guides-index .search-filters,
+html[data-theme="dark"] .search-index .search-filters,
+html[data-theme="dark"] .food-index .food-filters,
+html[data-theme="dark"] .reading-page .detail-heading,
+html[data-theme="dark"] .food-detail-page .food-detail-intro,
+html[data-theme="dark"] .food-detail-page .food-without-photo {
+  border-color: var(--night-line);
+  background: var(--night-surface);
+}
+html[data-theme="dark"] .destinations-index .dest-grid { border-color: var(--night-line); background: #243f42; box-shadow: none; }
+html[data-theme="dark"] .destination-detail .city-banner { border-color: var(--night-line); }
+html[data-theme="dark"] .destination-detail .city-essentials article { border-top-color: var(--night-accent); }
+html[data-theme="dark"] .destination-detail .city-essentials h2,
+html[data-theme="dark"] .explore-page .section-heading h2,
+html[data-theme="dark"] .reading-page .article h2,
+html[data-theme="dark"] .reading-page .detail-heading h1,
+html[data-theme="dark"] .food-detail-page .food-detail-heading h1,
+html[data-theme="dark"] .food-index .food-card h2 { color: var(--night-text); }
+html[data-theme="dark"] .explore-page .page-top p,
+html[data-theme="dark"] .explore-page .food-page-top p,
+html[data-theme="dark"] .explore-page .section-heading p,
+html[data-theme="dark"] .destination-detail .city-essentials p,
+html[data-theme="dark"] .destination-detail > .muted,
+html[data-theme="dark"] .reading-page .detail-heading p,
+html[data-theme="dark"] .food-detail-page .food-detail-heading > p,
+html[data-theme="dark"] .food-detail-page .food-photo-note,
+html[data-theme="dark"] .food-index .food-card-copy > p { color: var(--night-muted); }
+html[data-theme="dark"] .destination-detail .city-subsections .content-card,
+html[data-theme="dark"] .destination-detail > .section .content-card,
+html[data-theme="dark"] .guides-index .content-grid .content-card,
+html[data-theme="dark"] .search-index .content-grid .content-card,
+html[data-theme="dark"] .food-index .food-card,
+html[data-theme="dark"] .reading-page .article {
+  border-color: var(--night-line);
+  background: var(--night-surface);
+  color: var(--night-text);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, .22);
+}
+html[data-theme="dark"] .explore-page .search-filters input,
+html[data-theme="dark"] .explore-page .search-filters select,
+html[data-theme="dark"] .food-index .food-filters input,
+html[data-theme="dark"] .food-index .food-filters select { border-color: var(--night-line); background: var(--night-page); color: var(--night-text); }
+html[data-theme="dark"] .explore-page .result-caption { border-left-color: var(--night-accent); background: var(--night-warm-surface); color: var(--night-muted); }
+html[data-theme="dark"] .search-index .search-result-list { border-top-color: var(--night-line); }
+html[data-theme="dark"] .search-index .search-result-list .content-card { border-bottom-color: var(--night-line); }
+html[data-theme="dark"] .search-index .search-result-list .card-photo { border-color: var(--night-line); }
+html[data-theme="dark"] .explore-page .pagination a { border-color: var(--night-line); background: var(--night-surface); color: var(--night-text); }
+html[data-theme="dark"] .explore-page .pagination a.active { border-color: var(--night-accent); background: var(--night-accent); color: #102b33; }
+html[data-theme="dark"] .reading-page .detail-heading { border-left-color: var(--night-accent); }
+html[data-theme="dark"] .reading-page .detail-layout .article,
+html[data-theme="dark"] .food-detail-page .article { border-color: var(--night-line); background: #172832; color: var(--night-text); }
+html[data-theme="dark"] .reading-page .article .article-intro { color: var(--night-accent); }
+html[data-theme="dark"] .reading-page .article-sidebar,
+html[data-theme="dark"] .food-detail-page .food-reading-side { border-color: var(--night-line); border-top-color: var(--night-accent); background: var(--night-surface); }
+html[data-theme="dark"] .reading-page .article-sidebar h3,
+html[data-theme="dark"] .food-detail-page .food-reading-side h2 { color: var(--night-text); }
+html[data-theme="dark"] .reading-page .article-sidebar a,
+html[data-theme="dark"] .food-detail-page .food-reading-side a { border-bottom-color: var(--night-line); color: var(--night-accent); }
+html[data-theme="dark"] .reading-page .article-sidebar a:hover,
+html[data-theme="dark"] .food-detail-page .food-reading-side a:hover { color: var(--night-text); }
+html[data-theme="dark"] .reading-page .source-note,
+html[data-theme="dark"] .reading-page .related-section,
+html[data-theme="dark"] .reading-page .comments-section { border-color: var(--night-line); }
+html[data-theme="dark"] .reading-page .mini-related { border-color: var(--night-line); background: var(--night-surface); }
+html[data-theme="dark"] .reading-page .comment { border-bottom-color: var(--night-line); }
+html[data-theme="dark"] .food-index .food-card-photo,
+html[data-theme="dark"] .food-detail-page .food-detail-photo { border-color: var(--night-line); }
+html[data-theme="dark"] .food-index .food-no-photo { border-color: var(--night-line); background: #243f42; color: var(--night-muted); }
+html[data-theme="dark"] .food-index .food-no-photo small { color: var(--night-muted); }
+html[data-theme="dark"] .food-detail-page .food-category-label { color: var(--night-accent); }
+html[data-theme="dark"] .food-detail-page .food-save-count { color: var(--night-muted); }
