@@ -107,6 +107,7 @@ CREATE TABLE IF NOT EXISTS feedback (
  category TEXT NOT NULL CHECK(category IN ('内容纠错','功能建议','使用问题')),
  body TEXT NOT NULL CHECK(length(body) BETWEEN 1 AND 1000),
  page_path TEXT NOT NULL DEFAULT '',
+ page_title TEXT NOT NULL DEFAULT '', target_excerpt TEXT NOT NULL DEFAULT '',
  status TEXT NOT NULL DEFAULT 'PENDING' CHECK(status IN ('PENDING','RESOLVED')),
  admin_reply TEXT NOT NULL DEFAULT '',
  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),

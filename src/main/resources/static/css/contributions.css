@@ -242,3 +242,28 @@ html[data-theme="dark"] .contribution-preview-related article small{color:var(--
 
 @media(max-width:900px){.contribution-page-heading{align-items:flex-start;flex-direction:column}.contribution-page-heading>.button-row{justify-content:flex-start}.contribution-admin-filters{align-items:stretch}.contribution-admin-filters label{flex:1}.contribution-admin-filters .contribution-admin-query{min-width:100%}}
 @media(max-width:720px){.contribution-page-heading{gap:16px}.contribution-page-heading>.button-row{display:grid;grid-template-columns:1fr;align-items:stretch;width:100%}.contribution-page-heading>.button-row .button{justify-content:flex-start}.contribution-status-tabs{gap:16px;overflow-x:auto;white-space:nowrap}.contribution-card,.admin-contribution-card{padding:16px}.contribution-card-top,.admin-contribution-card-heading{gap:10px}.contribution-card h2,.admin-contribution-card h2{font-size:16px}.contribution-card-foot,.admin-contribution-card-foot{align-items:flex-start;flex-direction:column}.contribution-card-actions{justify-content:flex-start}.contribution-list-filter{align-items:flex-start}.contribution-admin-filters{display:grid;grid-template-columns:1fr 1fr}.contribution-admin-filters .contribution-admin-query{grid-column:1/-1}.contribution-admin-filters .button{justify-self:start}.contribution-dialog{padding:30px 20px;width:calc(100vw - 20px);max-height:95dvh}.contribution-dialog .contribution-dialog-heading h2{font-size:23px}.contribution-form-grid{grid-template-columns:1fr}.contribution-form-grid>label:first-child{grid-column:auto}.contribution-image-row{grid-template-columns:1fr}.contribution-image-preview{height:180px}.contribution-spot-options{grid-template-columns:1fr}.contribution-base-preview dl{grid-template-columns:1fr}.contribution-diff-wrap{overflow-x:auto}.contribution-diff{min-width:590px}.contribution-diff tbody th{width:115px}.contribution-admin-meta{gap:7px 13px}.contribution-review-form .button-row{justify-content:stretch}.contribution-review-form .button-row .button{flex:1;min-width:0}.city-story-contribution-actions{gap:10px}.city-story-section-actions{gap:8px;align-items:flex-start;flex-direction:column}.food-page-actions{justify-content:flex-start}.food-page-top{align-items:flex-start}}
+
+/* Contribution form guidance, live counts, and inline validation. */
+.contribution-field-label{display:block;color:#4f6b76}.contribution-field-label>input,.contribution-field-label>textarea,.contribution-field-label>select{display:block;width:100%;margin-top:6px}
+.contribution-required,.contribution-optional{display:inline;color:#9a7440;font-size:11px;font-weight:500;margin-left:4px}
+.contribution-optional{color:#87979c}
+.contribution-field-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;min-height:17px}
+.contribution-counter{margin-left:auto;color:#84969b;font-size:11px;white-space:nowrap}
+.contribution-field-error{color:#a74438;font-size:12px;line-height:1.5}
+.contribution-field-error[hidden]{display:none}
+.contribution-form [aria-invalid="true"]{border-color:#bd554a!important;box-shadow:0 0 0 2px rgba(189,85,74,.12)}
+.contribution-error-summary{padding:13px 16px;margin:0 0 3px;background:#fff1ed;border:1px solid #e8bdb4;border-radius:7px;color:#873c33}
+.contribution-error-summary[hidden]{display:none}
+.contribution-error-summary strong{font-size:13px}
+.contribution-error-summary ul{margin:6px 0 0;padding-left:20px}
+.contribution-error-summary li{margin:3px 0;font-size:12px}
+.contribution-error-summary a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.contribution-image-group[aria-invalid="true"] .contribution-image-preview,.contribution-image-group[aria-invalid="true"] .contribution-upload-label{border-color:#bd554a}
+.contribution-guide-spots[aria-invalid="true"] .contribution-spot-options{border-color:#bd554a;box-shadow:0 0 0 2px rgba(189,85,74,.12)}
+.contribution-preview-footer>div{align-items:center;flex-wrap:wrap;justify-content:flex-end}
+html[data-theme="dark"] .contribution-required{color:#e0b981}
+html[data-theme="dark"] .contribution-optional,html[data-theme="dark"] .contribution-counter{color:var(--night-muted)}
+html[data-theme="dark"] .contribution-field-error{color:#f0a39b}
+html[data-theme="dark"] .contribution-form [aria-invalid="true"]{border-color:#db786c!important;box-shadow:0 0 0 2px rgba(219,120,108,.17)}
+html[data-theme="dark"] .contribution-error-summary{background:#442b29;border-color:#73423d;color:#ffc0b6}
+html[data-theme="dark"] .contribution-image-group[aria-invalid="true"] .contribution-image-preview,html[data-theme="dark"] .contribution-image-group[aria-invalid="true"] .contribution-upload-label,html[data-theme="dark"] .contribution-guide-spots[aria-invalid="true"] .contribution-spot-options{border-color:#db786c}

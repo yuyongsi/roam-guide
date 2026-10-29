@@ -47,6 +47,8 @@ public class Database {
         // 投稿表是增量迁移；旧数据库及课程种子文件保持原样。
         new ResourceDatabasePopulator(new ClassPathResource("contributions.sql")).execute(source);
         column("contributions","deleted_at","TEXT");
+        column("feedback","page_title","TEXT NOT NULL DEFAULT ''");
+        column("feedback","target_excerpt","TEXT NOT NULL DEFAULT ''");
         // SQLite 触发器体内含分号，按完整 CREATE TRIGGER 语句执行。
         String triggers=new ClassPathResource("experience-triggers.sql").getContentAsString(java.nio.charset.StandardCharsets.UTF_8);
         for(String statement:triggers.split("(?m)(?=^CREATE TRIGGER)"))if(!statement.isBlank())jdbc.execute(statement);
