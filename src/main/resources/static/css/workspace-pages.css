@@ -70,13 +70,6 @@
   .social-page .social-intro { margin: 0 0 18px; padding: 13px 19px; border-color: #90b6a7; background: var(--journal-paper); }
   .social-page .social-intro p { font-size: 15px; line-height: 1.8; color: var(--journal-muted); }
   .social-page .social-intro .text-link { font-size: 14px; }
-  .social-page .social-feed { gap: 22px; align-items: start; }
-  .social-page .social-card { padding: 21px; border: 1px solid var(--journal-line); border-radius: 5px 16px 5px 16px; background: var(--journal-paper); box-shadow: 0 4px 14px #163b4908; }
-  .social-page .social-card-photo { margin: -21px -21px 19px; border-radius: 5px 16px 0 0; aspect-ratio: 2 / 1; }
-  .social-page .social-card h2 { font-size: 25px; margin: 10px 0 12px; }
-  .social-page .social-card-excerpt { font-size: 15px; line-height: 1.85; color: var(--journal-muted); }
-  .social-page .social-card-meta { font-size: 13px; color: var(--journal-link); }
-  .social-page .social-card-footer { font-size: 13px; line-height: 1.8; color: var(--journal-muted); margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--journal-line); }
   .social-page .social-empty { padding: 32px; border: 1px solid var(--journal-line); background: var(--journal-paper); }
 
   /* Public routes: full cards and a day-by-day reading surface. */
@@ -219,8 +212,6 @@
     .journal-page > :is(.page-top, .social-page-heading) h1 { font-size: 29px; }
     .social-detail { padding: 20px; }
     .social-detail .social-article-heading h1 { font-size: 29px; }
-    .social-page .social-card { padding: 17px; }
-    .social-page .social-card-photo { margin: -17px -17px 17px; }
     .recommend-page .exp-recommend-item { flex-wrap: wrap; padding: 15px; gap: 15px; }
     .recommend-page .exp-recommend-item > img { width: 100px; height: 100px; }
     .recommend-page .exp-recommend-item h2 { font-size: 22px; }

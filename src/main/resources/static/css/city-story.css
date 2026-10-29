@@ -31,7 +31,7 @@
 .city-story-counts { display: flex; flex-wrap: wrap; gap: 20px 28px; margin-top: 24px; color: var(--story-muted); font-size: 14px; }
 .city-story-counts span { display: inline-flex; align-items: baseline; gap: 7px; }
 .city-story-counts strong { color: var(--story-ink); font: 500 28px/1 SimSun, 'Songti SC', serif; }
-.city-story-plan { display: inline-flex; align-items: center; gap: 9px; margin-top: 25px; padding: 12px 17px; color: #fff; background: var(--story-ink); font-size: 15px; text-decoration: none; }
+.city-story-plan { display: inline-flex; align-items: center; gap: 9px; padding: 12px 17px; color: #fff; background: var(--story-ink); font-size: 15px; text-decoration: none; }
 .city-story-plan:hover { background: #285d60; }
 .city-story-media { min-width: 0; }
 .city-story-collage { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); grid-template-rows: repeat(2, minmax(150px, 1fr)); gap: 13px; min-width: 0; min-height: 400px; }
