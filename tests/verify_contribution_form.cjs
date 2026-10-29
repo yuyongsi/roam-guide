@@ -124,4 +124,3 @@ assert.doesNotMatch(incompletePreview, /data-contribution-preview-confirm/);
 assert.match(incompletePreview, /data-contribution-preview-back/);
 
 console.log('Contribution form checks passed.');
-
