@@ -55,8 +55,11 @@ function Assert-Writable([string]$Directory){
 function Get-Fingerprint {
  $files=@((Get-Item -LiteralPath (Join-Path $projectRoot 'pom.xml')))+(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'src') -Recurse -File)
  $files+=@(Get-Item -LiteralPath (Join-Path $projectRoot 'sql\guide.db'));$files+=@(Get-Item -LiteralPath (Join-Path $projectRoot 'sql\demo-manifest.json'))
+ $paths=New-Object 'System.Collections.Generic.List[string]'
+ foreach($file in $files){$paths.Add($file.FullName)}
+ $paths.Sort([StringComparer]::Ordinal)
  $text=New-Object Text.StringBuilder
- foreach($file in ($files|Sort-Object FullName)){[void]$text.Append($file.FullName.Substring($projectRoot.Length).Replace('\','/')).Append(':').Append((Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash).Append("`n")}
+ foreach($path in $paths){[void]$text.Append($path.Substring($projectRoot.Length).Replace('\','/')).Append(':').Append((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash).Append("`n")}
  $sha=[Security.Cryptography.SHA256]::Create();try{return ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($text.ToString())))).Replace('-','').ToLowerInvariant()}finally{$sha.Dispose()}
 }
 try{

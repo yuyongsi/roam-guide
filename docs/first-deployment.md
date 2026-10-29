@@ -10,6 +10,7 @@
 - 初始库是sql/guide.db，校验清单为sql/demo-manifest.json。Maven把它们作为bootstrap资源放入运行包，不要求老师手工安装SQLite工具或执行SQL。
 - 原生启动脚本支持Windows PowerShell 5，自动查找兼容的完整JDK，检查源码完整性、初始库、目录权限和端口。脚本优先使用当前PowerShell宿主的自带模块，避免继承开发工具的其他版本模块后找不到Get-FileHash。
 - 首次联网从官方仓库下载固定版本Maven并核对SHA-512。缓存放在源码外。已编译包同时核对源码指纹和包哈希；源码变化或包被改写时必须重新编译。
+- 源码指纹使用序号排序，避免Windows PowerShell 5与7因区域排序不同而误判缓存。旧版指纹清单可能触发一次重建；升级后先在联网或已有依赖缓存的环境执行 `-PrepareOnly`，再使用离线启动。
 - 中文脚本使用UTF-8 BOM，批处理使用ASCII/CRLF，Java及Maven输出显式使用UTF-8，实际验证中文和空格路径。
 - /api/health在数据库初始化完成后才返回ready，启动脚本据此打开浏览器；实例标识是数据路径的哈希，不向网页公开本机目录。可以使用-NoBrowser。
 

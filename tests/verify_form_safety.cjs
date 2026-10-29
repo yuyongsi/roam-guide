@@ -21,10 +21,10 @@ vm.runInContext(fs.readFileSync(path.join(__dirname,'../src/main/resources/stati
  const filter={dataset:{featureForm:'pick-spots'},elements:[field('q','原条件')]};dialog.forms=[filter];observers[0]();filter.elements[0].value='新条件';check(!safety.hasDirtyDialogs());
  const source=fs.readFileSync(path.join(__dirname,'../src/main/resources/static/js/app.js'),'utf8'),start=source.indexOf('function acceptSession('),end=source.indexOf('async function refreshSession',start);
  const state={user:{id:1},csrf:'old',drafts:new Map([['23','旧账号的草稿']]),favorites:[{}],favoriteKeys:new Set(['x']),adminRows:[{}],adminSpots:[{}]};
- const featureState={trip:{},sourceSpots:[{}],pending:()=>{}},plannerDepthState={},budgetUi={},mealUi={},expUi={},tripVersionsUi={},constraintUi={},cityUi={catalog:{},nonce:0};let closed=0;
- const session=vm.createContext({state,featureState,plannerDepthState,budgetUi,mealUi,expUi,tripVersionsUi,constraintUi,cityUi,document:{querySelectorAll:()=>[{close(){closed++;}}]}});
+ const featureState={trip:{},sourceSpots:[{}],pending:()=>{}},plannerDepthState={},budgetUi={},mealUi={},expUi={},tripVersionsUi={},constraintUi={},cityUi={catalog:{},nonce:0},contributionUi={context:{owner:1},pending:{kind:'draft'}};let closed=0;
+ const session=vm.createContext({state,featureState,plannerDepthState,budgetUi,mealUi,expUi,tripVersionsUi,constraintUi,cityUi,contributionUi,document:{querySelectorAll:()=>[{close(){closed++;}}]}});
  vm.runInContext(source.slice(start,end),session);const accept=vm.runInContext('acceptSession',session);
- accept({user:{id:2},csrf:'next'});check(state.drafts.size===0&&state.user.id===2&&state.csrf==='next');check(closed===1&&featureState.trip===null&&featureState.pending===null);check(cityUi.catalog===null&&cityUi.nonce===1);check(!state.favorites.length&&!state.adminRows.length);
+ accept({user:{id:2},csrf:'next'});check(state.drafts.size===0&&state.user.id===2&&state.csrf==='next');check(closed===1&&featureState.trip===null&&featureState.pending===null);check(cityUi.catalog===null&&cityUi.nonce===1);check(contributionUi.context===null&&contributionUi.pending===null);check(!state.favorites.length&&!state.adminRows.length);
  state.drafts.set('23','本账号草稿');accept({user:{id:2},csrf:'rotated'});check(state.drafts.get('23')==='本账号草稿');
  accept({user:null,csrf:'guest'});check(state.drafts.size===0&&state.user===null);
  const pending=()=>{};featureState.pending=pending;accept({user:{id:2},csrf:'login'});check(featureState.pending===pending);
