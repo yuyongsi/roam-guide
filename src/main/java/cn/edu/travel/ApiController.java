@@ -76,17 +76,23 @@ public class ApiController {
         return db.list("SELECT c.*,(SELECT count(*) FROM spots s WHERE s.city_id=c.id AND s.published=1 AND c.published=1) AS spot_count,(SELECT count(*) FROM guides g WHERE g.city_id=c.id AND g.published=1 AND c.published=1) AS guide_count FROM cities c WHERE c.published=1 ORDER BY sort_order,id");
     }
     @GetMapping("/spots/{id}") Object spot(@PathVariable long id) {
-        var item=db.one("SELECT s.*,c.name AS city_name,c.slug AS city_slug,c.province FROM spots s JOIN cities c ON c.id=s.city_id WHERE s.id=? AND s.published=1 AND c.published=1",id);
-        SpotMaps.decorate(item);
-        item.put("gallery",db.decode(item.get("gallery")));
-        item.put("guides",db.list("SELECT g.*,c.name AS city_name FROM guides g JOIN guide_spots gs ON gs.guide_id=g.id JOIN cities c ON c.id=g.city_id WHERE gs.spot_id=? AND g.published=1 AND c.published=1 ORDER BY g.id",id));
-        return item;
+        return db.transaction(tx->{
+            var item=db.one("SELECT s.*,c.name AS city_name,c.slug AS city_slug,c.province FROM spots s JOIN cities c ON c.id=s.city_id WHERE s.id=? AND s.published=1 AND c.published=1",id);
+            SpotMaps.decorate(item);
+            item.put("gallery",db.decode(item.get("gallery")));
+            item.put("guides",db.list("SELECT g.*,c.name AS city_name FROM guides g JOIN guide_spots gs ON gs.guide_id=g.id JOIN cities c ON c.id=g.city_id WHERE gs.spot_id=? AND g.published=1 AND c.published=1 ORDER BY g.id",id));
+            item.put("publication",PublicationMetadata.forPublic(db,"spot",id,item));
+            return item;
+        });
     }
     @GetMapping("/guides/{id}") Object guide(@PathVariable long id) {
-        var item=db.one("SELECT g.*,c.name AS city_name,c.slug AS city_slug,c.province FROM guides g JOIN cities c ON c.id=g.city_id WHERE g.id=? AND g.published=1 AND c.published=1",id);
-        item.put("sections",db.decode(item.get("sections")));
-        item.put("spots",db.list("SELECT s.*,c.name AS city_name FROM spots s JOIN guide_spots gs ON gs.spot_id=s.id JOIN cities c ON c.id=s.city_id WHERE gs.guide_id=? AND s.published=1 AND c.published=1 ORDER BY gs.sort_order",id));
-        return item;
+        return db.transaction(tx->{
+            var item=db.one("SELECT g.*,c.name AS city_name,c.slug AS city_slug,c.province FROM guides g JOIN cities c ON c.id=g.city_id WHERE g.id=? AND g.published=1 AND c.published=1",id);
+            item.put("sections",db.decode(item.get("sections")));
+            item.put("spots",db.list("SELECT s.*,c.name AS city_name FROM spots s JOIN guide_spots gs ON gs.spot_id=s.id JOIN cities c ON c.id=s.city_id WHERE gs.guide_id=? AND s.published=1 AND c.published=1 ORDER BY gs.sort_order",id));
+            item.put("publication",PublicationMetadata.forPublic(db,"guide",id,item));
+            return item;
+        });
     }
     @GetMapping("/guides/{id}/comments") Object comments(@PathVariable long id) {
         db.one(publicLookup("guides"),id);

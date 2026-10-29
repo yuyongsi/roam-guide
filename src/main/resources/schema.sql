@@ -352,6 +352,7 @@ CREATE TABLE IF NOT EXISTS contributions (
 );
 CREATE INDEX IF NOT EXISTS contributions_owner_idx ON contributions(owner_id,updated_at DESC);
 CREATE INDEX IF NOT EXISTS contributions_review_idx ON contributions(status,kind,updated_at DESC);
+CREATE INDEX IF NOT EXISTS contributions_publication_idx ON contributions(kind,published_id,status,operation,reviewed_at,id);
 
 CREATE TABLE IF NOT EXISTS contribution_reviews (
  id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -368,3 +369,4 @@ CREATE TABLE IF NOT EXISTS contribution_images (
  owner_id INTEGER NOT NULL REFERENCES users(id),
  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
+CREATE INDEX IF NOT EXISTS admin_audit_publication_idx ON admin_audit_logs(resource,target_id,outcome,action,created_at DESC,id DESC);

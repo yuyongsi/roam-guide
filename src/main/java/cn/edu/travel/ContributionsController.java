@@ -176,6 +176,15 @@ class ContributionsController {
         owner(id,req);
         return details(id,false);
     }
+    @PostMapping("/me/contributions/{id}/preview") Object preview(@PathVariable long id,@RequestBody Map<String,Object>b,HttpServletRequest req){
+        var user=auth.require(req);
+        return db.transaction(tx->{
+            var c=owner(id,req);
+            long revision=positiveRevision(b);
+            if(n(c.get("revision"))!=revision)throw new ApiError(409,"投稿已更新，请刷新后预览");
+            return previewResult(c,user);
+        });
+    }
     /** Conceal another user's submission as not found, including for detail and mutations. */
     private Map<String,Object> owner(long id,HttpServletRequest req){
         var u=auth.require(req);
@@ -315,6 +324,8 @@ class ContributionsController {
         Map<String,Object> p=merged(c);
         String k=String.valueOf(c.get("kind"));
         long city=n(p.get("city_id"));
+        if(city<=0)throw new ApiError(400,"请选择公开目的地");
+        validateUpdateTarget(c,p);
         db.one("SELECT id FROM cities WHERE id=? AND published=1",city);
         required(p,"title",1,100);
         required(p,"intro",1,500);
@@ -376,9 +387,127 @@ class ContributionsController {
         }
         for(String f:List.of("image"))if(Objects.toString(p.get(f),"").length()>300)throw new ApiError(400,"图片地址过长");
     }
+    private void validateUpdateTarget(Map<String,Object> c,Map<String,Object> p){
+        if(!"UPDATE".equals(c.get("operation")))return;
+        Map<String,Object> target;
+        try{target=currentTarget(String.valueOf(c.get("kind")),n(c.get("target_id")));}
+        catch(ApiError e){if(e.status==404)throw new ApiError(409,"原公开资料已不存在，请重新选择修改对象");throw e;}
+        if(n(target.get("published"))!=1||n(target.get("city_published"))!=1)throw new ApiError(409,"原资料或所在地区已下架，不能提交修改建议");
+        if(n(target.get("revision"))!=n(c.get("target_revision")))throw new ApiError(409,"原资料已更新，请重新获取对照版本后再提交");
+        if(n(p.get("city_id"))!=n(target.get("city_id")))throw new ApiError(409,"修改建议需保留原资料所属地区");
+    }
+    private Map<String,Object> previewResult(Map<String,Object> c,Map<String,Object> user){
+        Map<String,Object> payload=merged(c);
+        Set<String> warningSet=new LinkedHashSet<>();
+        long cityId=0;
+        try{cityId=n(payload.get("city_id"));}catch(ApiError ignored){ }
+        Map<String,Object> city=null;
+        if(cityId>0){
+            var cities=db.list("SELECT name,slug,province FROM cities WHERE id=? AND published=1",cityId);
+            if(!cities.isEmpty())city=cities.get(0);
+        }
+        if(city==null)warningSet.add("所选地区当前不可用，地区信息已隐藏。");
+        Map<String,Object> item=new LinkedHashMap<>(payload);
+        item.put("city_name",city==null?"地区暂不可用":city.get("name"));
+        item.put("city_slug",city==null?"":city.get("slug"));
+        item.put("province",city==null?"":city.get("province"));
+        item.put("spots",previewSpots(String.valueOf(c.get("kind")),payload,cityId,city!=null,warningSet));
+        if("UPDATE".equals(c.get("operation")))try{validateUpdateTarget(c,payload);}
+        catch(ApiError e){
+            warningSet.add(e.getMessage());
+        }
+
+        boolean canSubmit=false;
+        String validationMessage;
+        String status=String.valueOf(c.get("status"));
+        if(c.get("deleted_at")!=null)validationMessage="投稿在回收站中，恢复后才能提交。";
+        else if(!Set.of("DRAFT","RETURNED").contains(status))validationMessage=switch(status){
+            case "PENDING"->"投稿已提交，当前为只读预览。";
+            case "APPROVED"->"投稿已审核通过，后续修改请新建修改建议。";
+            default->"当前投稿状态为只读预览。";
+        };
+        else try{validateSubmission(c);canSubmit=true;validationMessage="内容完整，可以提交审核。";}
+        catch(ApiError e){validationMessage=e.status==404?"地区或公开关联资料已不可用。":e.getMessage();warningSet.add(validationMessage);}
+
+        Map<String,Object> publication=previewPublication(c,user);
+        Map<String,Object> response=new LinkedHashMap<>();
+        response.put("contribution_id",c.get("id"));
+        response.put("revision",c.get("revision"));
+        response.put("kind",c.get("kind"));
+        response.put("operation",c.get("operation"));
+        response.put("status",c.get("status"));
+        response.put("deleted_at",c.get("deleted_at"));
+        response.put("can_submit",canSubmit);
+        response.put("validation_message",validationMessage);
+        response.put("warnings",new ArrayList<>(warningSet));
+        response.put("item",item);
+        response.put("publication",publication);
+        return response;
+    }
+    private List<Map<String,Object>> previewSpots(String kind,Map<String,Object> payload,long cityId,boolean cityVisible,Set<String> warnings){
+        if(!"guide".equals(kind))return List.of();
+        Object raw=payload.get("spot_ids");
+        if(!(raw instanceof List<?> ids)||ids.isEmpty())return List.of();
+        List<Long> validIds=new ArrayList<>();
+        for(Object value:ids)try{validIds.add(n(value));}catch(ApiError ignored){warnings.add("部分关联景点信息无法显示。");}
+        Map<Long,Map<String,Object>> visible=new HashMap<>();
+        if(cityVisible&&!validIds.isEmpty()){
+            String marks=String.join(",",Collections.nCopies(validIds.size(),"?"));
+            List<Object> args=new ArrayList<>();args.add(cityId);args.addAll(validIds);
+            for(var row:db.list("SELECT s.id,s.title,s.image FROM spots s JOIN cities c ON c.id=s.city_id WHERE s.city_id=? AND s.published=1 AND c.published=1 AND s.id IN ("+marks+")",args.toArray()))visible.put(n(row.get("id")),row);
+        }
+        List<Map<String,Object>> out=new ArrayList<>();
+        for(Object value:ids){
+            long spotId;
+            try{spotId=n(value);}catch(ApiError e){continue;}
+            var row=visible.get(spotId);
+            if(row==null){
+                out.add(Map.of("id",spotId,"title","景点暂不可用","image",""));
+                warnings.add("部分关联景点已下架或不可用，预览中已隐藏其资料。");
+            }else out.add(Map.of("id",spotId,"title",row.get("title"),"image",Objects.toString(row.get("image"),"")));
+        }
+        return out;
+    }
+    private Map<String,Object> previewPublication(Map<String,Object> c,Map<String,Object> user){
+        String kind=String.valueOf(c.get("kind")),operation=String.valueOf(c.get("operation")),status=String.valueOf(c.get("status"));
+        if("CREATE".equals(operation)){
+            if("APPROVED".equals(status)&&c.get("published_id")!=null){
+                try{var row=targetForEdit(kind,n(c.get("published_id")));return PublicationMetadata.forPublic(db,kind,n(c.get("published_id")),row);}
+                catch(ApiError ignored){Map<String,Object> unavailable=PublicationMetadata.previewCreate(String.valueOf(user.get("username")));unavailable.put("preview_pending",false);return unavailable;}
+            }
+            return PublicationMetadata.previewCreate(String.valueOf(user.get("username")));
+        }
+        long targetId=n(c.get("target_id"));
+        try{
+            var row=targetForEdit(kind,targetId);
+            Map<String,Object> actual=PublicationMetadata.forPublic(db,kind,targetId,row);
+            if("APPROVED".equals(status))return actual;
+            return PublicationMetadata.previewUpdate(actual,String.valueOf(user.get("username")));
+        }catch(ApiError e){
+            Map<String,Object> fallback=PublicationMetadata.previewCreate("漫游编辑整理");
+            fallback.put("author_kind","editorial");
+            fallback.put("preview_pending",!"APPROVED".equals(status));
+            return fallback;
+        }
+    }
     private static void required(Map<String,Object> p,String key,int min,int max){
         String v=Objects.toString(p.get(key),"").trim();
-        if(v.length()<min||v.length()>max)throw new ApiError(400,"请检查“"+key+"”字段长度");
+        String label=switch(key){
+            case "title"->"标题";
+            case "intro"->"简介";
+            case "subtitle"->"副标题";
+            case "description"->p.containsKey("category")?"美食介绍":"景点介绍";
+            case "highlights"->"景点亮点";
+            case "transportation"->"交通建议";
+            case "tips"->p.containsKey("category")?"食用提示":"游览提示";
+            case "taste"->"口味";
+            case "source_url"->"资料来源";
+            case "map_query"->"地图搜索词";
+            case "category"->"美食类别";
+            case "body"->"正文";
+            default->"内容";
+        };
+        if(v.length()<min||v.length()>max)throw new ApiError(400,"请检查“"+label+"”字段长度");
     }
     private Map<String,Object> merged(Map<String,Object> c){
         Map<String,Object> m=new LinkedHashMap<>();
@@ -386,6 +515,11 @@ class ContributionsController {
         if("UPDATE".equals(c.get("operation")))m.putAll((Map<String,Object>)db.decode(c.get("base_snapshot")));
         m.putAll((Map<String,Object>)db.decode(c.get("payload")));
         if(k.equals("spot")){
+            m.putIfAbsent("city_id",0);
+            m.putIfAbsent("title","");
+            m.putIfAbsent("intro","");
+            m.putIfAbsent("description","");
+            m.putIfAbsent("image","");
             m.putIfAbsent("highlights","");
             m.putIfAbsent("transportation","");
             m.putIfAbsent("tips","");
@@ -396,7 +530,11 @@ class ContributionsController {
             m.putIfAbsent("gallery",List.of());
         }
         else if(k.equals("guide")){
+            m.putIfAbsent("city_id",0);
+            m.putIfAbsent("title","");
             m.putIfAbsent("subtitle","");
+            m.putIfAbsent("intro","");
+            m.putIfAbsent("image","");
             m.putIfAbsent("source_url","");
             m.putIfAbsent("theme","人文历史");
             m.putIfAbsent("duration_minutes",120);
@@ -404,6 +542,10 @@ class ContributionsController {
             m.putIfAbsent("spot_ids",List.of());
         }
         else{
+            m.putIfAbsent("city_id",0);
+            m.putIfAbsent("title","");
+            m.putIfAbsent("category","");
+            m.putIfAbsent("intro","");
             m.putIfAbsent("description","");
             m.putIfAbsent("taste","");
             m.putIfAbsent("tips","");

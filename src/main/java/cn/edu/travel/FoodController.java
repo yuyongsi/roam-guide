@@ -27,7 +27,11 @@ public class FoodController {
         return Map.of("items",db.list("SELECT "+columns()+where+" ORDER BY f.id LIMIT ? OFFSET ?",values.toArray()),"total",total,"page",page,"size",size);
     }
     @GetMapping("/foods/{id}") Object food(@PathVariable long id,HttpServletRequest req) {
-        return db.one("SELECT "+columns()+" FROM foods f JOIN cities c ON c.id=f.city_id WHERE f.id=? AND f.published=1 AND c.published=1",uid(req),id);
+        return db.transaction(tx->{
+            var item=db.one("SELECT "+columns()+" FROM foods f JOIN cities c ON c.id=f.city_id WHERE f.id=? AND f.published=1 AND c.published=1",uid(req),id);
+            item.put("publication",PublicationMetadata.forPublic(db,"food",id,item));
+            return item;
+        });
     }
     @GetMapping("/me/food-favorites") Object favorites(HttpServletRequest req) {
         var user=auth.require(req);
